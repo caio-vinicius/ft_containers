@@ -1,0 +1,21 @@
+build_dir = build
+cxx = c++
+
+cflags = -Wfatal-errors -Wall -Wextra -Werror -std=c++98
+
+rule compile
+  command = $cxx $cflags -c $in -o $out
+  description = Building CXX file $in
+
+rule link
+  command = $cxx $in -o $out
+
+rule clean
+  command = rm -rf $build_dir
+  description = Cleaning directory $builddir
+
+build $build_dir/main.o: compile main.cpp
+
+build containers: link $build_dir/main.o
+
+default containers
