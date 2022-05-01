@@ -1,10 +1,14 @@
+# Copyright (c) 2022 Caio Souza. All rights reserved. #
+# 42 #
+
 build_dir = build
+catch_framework_dir = catch1
 cxx = c++
 
 cflags = -Wfatal-errors -Wall -Wextra -Werror -std=c++98
 
 rule compile
-  command = $cxx $cflags -c $in -o $out
+  command = $cxx $cflags -I $catch_framework_dir -c $in -o $out
   description = Building CXX file $in
 
 rule link
@@ -15,7 +19,8 @@ rule clean
   description = Cleaning directory $builddir
 
 build $build_dir/main.o: compile main.cpp
+build $build_dir/tests.o: compile tests.cpp
 
-build containers: link $build_dir/main.o
+build containers: link $build_dir/main.o $build_dir/tests.o
 
 default containers
