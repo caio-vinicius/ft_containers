@@ -19,8 +19,11 @@ rule clean
   description = Cleaning directory $builddir
 
 build $build_dir/main.o: compile main.cpp
-build $build_dir/tests.o: compile tests.cpp
+build $build_dir/tests-main.o: compile tests-main.cpp
+build $build_dir/tests-vector.o: compile tests-vector.cpp
 
-build containers: link $build_dir/main.o $build_dir/tests.o
+build containers: link $build_dir/main.o
+
+build tests: link $build_dir/tests-main.o $build_dir/tests-vector.o
 
 default containers
