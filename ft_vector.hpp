@@ -22,7 +22,7 @@ namespace ft {
       typedef ft::RandomAccessIterator<value_type> *const_iterator;
       typedef std::reverse_iterator<iterator> reverse_iterator;
       typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-      typedef typename std::iterator_traits<iterator>::difference_type difference_type;
+      typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
       typedef typename std::size_t size_type;
       // member functions
 
