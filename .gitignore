@@ -36,3 +36,4 @@
 containers
 .ninja_log
 .ninja_deps
+*.swp
