@@ -1,11 +1,16 @@
 /* Copyright (c) 2023 Caio Souza. All rights reserved. */
 /* 42 */
 
+#ifndef RANDOM_ACCESS_ITERATOR_HPP
+# define RANDOM_ACCESS_ITERATOR_HPP
+
 #include <iterator>
+
+#include "iterator_traits.hpp"
 
 namespace ft {
   template <typename T>
-  class RandomAccessIterator : public std::iterator<std::random_access_iterator_tag, T> {
+  class RandomAccessIterator : public std::iterator<ft::random_access_iterator_tag, T> {
   private:
     T *_p;
   public:
@@ -56,3 +61,5 @@ namespace ft {
     T& operator[](int const &n) {return (this->_p[n]);};
   };
 }
+
+#endif
