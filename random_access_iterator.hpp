@@ -10,51 +10,51 @@
 
 namespace ft {
   template <typename T>
-  class RandomAccessIterator : public std::iterator<ft::random_access_iterator_tag, T> {
+  class random_access_iterator : public std::iterator<ft::random_access_iterator_tag, T> {
   private:
     T *_p;
   public:
-    RandomAccessIterator(void) : _p(NULL) {};
-    RandomAccessIterator(T *p) : _p(p) {};
-    ~RandomAccessIterator() {};
-    RandomAccessIterator(RandomAccessIterator const &src) : _p(src._p) {};
-    RandomAccessIterator &operator=(RandomAccessIterator const &rhs) {
+    random_access_iterator(void) : _p(NULL) {};
+    random_access_iterator(T *p) : _p(p) {};
+    ~random_access_iterator() {};
+    random_access_iterator(random_access_iterator const &src) : _p(src._p) {};
+    random_access_iterator &operator=(random_access_iterator const &rhs) {
       _p = rhs._p;
       return (*this);
     };
 
-    bool operator==(RandomAccessIterator const &rhs) {return _p == rhs._p;};
-    bool operator!=(RandomAccessIterator const &rhs) {return _p != rhs._p;};
-    bool operator<(RandomAccessIterator const &rhs) {return _p < rhs._p;};
-    bool operator>(RandomAccessIterator const &rhs) {return _p > rhs._p;};
-    bool operator<=(RandomAccessIterator const &rhs) {return _p <= rhs._p;};
-    bool operator>=(RandomAccessIterator const &rhs) {return _p >= rhs._p;};
-    RandomAccessIterator operator+(int const rhs) {return (RandomAccessIterator(_p + rhs));};
-    RandomAccessIterator operator-(int const rhs) {return (RandomAccessIterator(_p - rhs));};
-    RandomAccessIterator &operator+=(int const rhs) {
+    bool operator==(random_access_iterator const &rhs) {return _p == rhs._p;};
+    bool operator!=(random_access_iterator const &rhs) {return _p != rhs._p;};
+    bool operator<(random_access_iterator const &rhs) {return _p < rhs._p;};
+    bool operator>(random_access_iterator const &rhs) {return _p > rhs._p;};
+    bool operator<=(random_access_iterator const &rhs) {return _p <= rhs._p;};
+    bool operator>=(random_access_iterator const &rhs) {return _p >= rhs._p;};
+    random_access_iterator operator+(int const rhs) {return (random_access_iterator(_p + rhs));};
+    random_access_iterator operator-(int const rhs) {return (random_access_iterator(_p - rhs));};
+    T &operator*() const {return *_p;};
+    random_access_iterator &operator+=(int const rhs) {
       _p += rhs;
       return (*this);
     };
-    RandomAccessIterator &operator-=(int const rhs) {
+    random_access_iterator &operator-=(int const rhs) {
       _p -= rhs;
       return (*this);
     };
-    T &operator*() {return *_p;};
-    RandomAccessIterator operator++() {
+    random_access_iterator operator++() {
       ++_p;
       return (*this);
     };
-    RandomAccessIterator operator++(int) {
-      RandomAccessIterator rai(*this);
+    random_access_iterator operator++(int) {
+      random_access_iterator rai(*this);
       ++*this;
       return (rai);
     };
-    RandomAccessIterator operator--() {
+    random_access_iterator operator--() {
       --_p;
       return (*this);
     };
-    RandomAccessIterator operator--(int) {
-      RandomAccessIterator rai(*this);
+    random_access_iterator operator--(int) {
+      random_access_iterator rai(*this);
       --*this;
       return (rai);
     };
