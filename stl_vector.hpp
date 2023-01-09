@@ -5,7 +5,7 @@
 #include <vector>
 #include <iterator>
 
-//#include "random_access_iterator.hpp"
+//#include "stl_iterator.hpp"
 
 namespace ft {
   template <typename T, typename Alloc = std::allocator<T> >
@@ -18,8 +18,8 @@ namespace ft {
       typedef typename allocator_type::const_reference const_reference;
       typedef typename allocator_type::pointer pointer;
       typedef typename allocator_type::const_pointer const_pointer;
-      typedef ft::random_access_iterator<value_type> *iterator;
-      typedef ft::random_access_iterator<value_type> *const_iterator;
+      typedef ft::stl_iterator<value_type> *iterator;
+      typedef ft::stl_iterator<value_type> *const_iterator;
       typedef ft::reverse_iterator<iterator> reverse_iterator;
       typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
       typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
