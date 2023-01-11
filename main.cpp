@@ -6,8 +6,23 @@
 #include <vector>
 #include <iterator>
 
-// #include "ft_vector.hpp"
+#include "stl_vector.hpp"
 #include "stl_iterator.hpp"
+
+void stl_vector_tests(void) {
+    std::vector<int> second(4, 100);
+    for (std::vector<int>::iterator it = second.begin(); it != second.end(); ++it)
+        std::cout << ' ' << *it;
+    std::cout << '\n';
+
+    std::cout << second.max_size() << std::endl;
+
+    ft::vector<int> third(4, 100);
+    for (size_t i = 0; i < 4; ++i) {
+        std::cout << ' ' << third[i];
+    }
+    std::cout << '\n';
+}
 
 void normal_iterator_tests(void) {
     std::cout << "=== RANDOM ACCESS ITERATOR ===" << std::endl;
@@ -59,11 +74,29 @@ void reverse_iterator_tests(void) {
 }
 
 void ft_containers(void) {
-  //normal_iterator_tests();
-  reverse_iterator_tests();
+    //normal_iterator_tests();
+    reverse_iterator_tests();
 }
 
 int main(void) {
-  ft_containers();
-  return (0);
+    //ft_containers();
+    ft::vector<int> vec(2, 100);
+    ft::vector<int>::reverse_iterator it;
+    std::vector<int> vec2(2, 100);
+    std::vector<int>::reverse_iterator it2;
+    //std::cout << *++it_int << std::endl;
+    //it = vec.begin();
+    //for (size_t i = 0; i < 100; ++i) {
+    //    std::cout << ' ' << vec[i];
+    //}
+    //std::cout << "The vector elements are : ";
+    it = vec.rend();
+    ++it;
+    std::cout << *it << std::endl;
+    it2 = vec2.rend();
+    ++it2;
+    std::cout << *it2 << std::endl;
+    //for (it = vec.begin(); it != vec.end(); it++)
+    //  std::cout << *it << " ";
+    return (0);
 }
