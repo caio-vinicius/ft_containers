@@ -8,6 +8,7 @@
 
 #include "stl_vector.hpp"
 #include "stl_iterator.hpp"
+#include "test.hpp"
 
 void stl_vector_tests(void) {
     std::vector<int> second(4, 100);
@@ -36,9 +37,9 @@ void normal_iterator_tests(void) {
     int t = 404;
     *it = t;
     if (*it == 404)
-      std::cout << "[OK]";
+        std::cout << "[OK]";
     else
-      std::cout << "[KO]";
+        std::cout << "[KO]";
     std::cout << std::endl;
     // ============
 
@@ -60,9 +61,9 @@ void normal_iterator_tests(void) {
     int array3[6] = {5, 4, 8, 0, 9, 10};
     ft::normal_iterator<int> it3(array3);
     if (it3[0] == 5 && it3[1] == 4 && it3[2] == 8)
-      std::cout << "[OK]";
+        std::cout << "[OK]";
     else
-      std::cout << "[KO]";
+        std::cout << "[KO]";
     std::cout << std::endl;
 }
 
@@ -73,30 +74,38 @@ void reverse_iterator_tests(void) {
     std::cout << *rev_it << std::endl;
 }
 
-void ft_containers(void) {
-    //normal_iterator_tests();
-    reverse_iterator_tests();
+void stl_vector_tests2(void) {
+  struct units {
+    static bool unit1() {
+      ft::vector<int> v(2, 100);
+      return (v[0] == 100 && v[1] == 100);
+    }
+    static bool unit2() {
+      ft::vector<int> v(100, 100);
+      return (v.size() == 100);
+    }
+    static bool unit3() {
+      ft::vector<int> v(1, 1);
+      return (*v.begin() == 1);
+    }
+    static bool unit4() {
+      return (0);
+    }
+  };
+  test tests;
+  tests.make(4, units::unit1, units::unit2, units::unit3, units::unit4);
+  tests.run();
 }
 
 int main(void) {
-    //ft_containers();
-    ft::vector<int> vec(2, 100);
-    ft::vector<int>::reverse_iterator it;
-    std::vector<int> vec2(2, 100);
-    std::vector<int>::reverse_iterator it2;
-    //std::cout << *++it_int << std::endl;
-    //it = vec.begin();
-    //for (size_t i = 0; i < 100; ++i) {
-    //    std::cout << ' ' << vec[i];
-    //}
-    //std::cout << "The vector elements are : ";
-    it = vec.rend();
-    ++it;
-    std::cout << *it << std::endl;
-    it2 = vec2.rend();
-    ++it2;
-    std::cout << *it2 << std::endl;
-    //for (it = vec.begin(); it != vec.end(); it++)
-    //  std::cout << *it << " ";
+    //stl_vector_tests2();
+    //std::vector<int> first;                                // empty vector of ints
+    ft::vector<int> second (4,100);                       // four ints with value 100
+    //std::vector<int> third (second.begin(),second.end() - 1);  // iterating through second
+    //std::vector<int> fourth (third);
+    //for (std::vector<int>::iterator it = third.begin(); it != third.end(); ++it)
+    //    std::cout << ' ' << *it;
+    //std::cout << '\n';
+    ft::vector<int> third2(second.begin(),second.end());
     return (0);
 }
