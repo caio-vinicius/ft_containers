@@ -7,8 +7,10 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <type_traits>
 
 #include "stl_iterator.hpp"
+#include "stl_type_traits.hpp"
 
 namespace ft {
   template <typename T, typename Alloc = std::allocator<T> >
@@ -22,7 +24,7 @@ namespace ft {
       typedef typename allocator_type::pointer pointer;
       typedef typename allocator_type::const_pointer const_pointer;
       typedef ft::normal_iterator<value_type> iterator;
-      typedef ft::normal_iterator<value_type> const_iterator;
+      typedef ft::normal_iterator<const value_type> const_iterator;
       typedef ft::reverse_iterator<iterator> reverse_iterator;
       typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
       typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
@@ -31,17 +33,22 @@ namespace ft {
 
       explicit vector(const allocator_type& alloc = allocator_type()): _alloc(alloc), v(NULL), _size(0), _capacity(0) {};
       explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(n), _capacity(n) {
+        std::cout << "ativou fill" << std::endl;
+        return ;
         v = _alloc.allocate(n);
         for (size_type i = 0; i < n; ++i) {
           _alloc.construct(&v[i], val);
         }
       };
-      //template <typename InputIterator>
-      //vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {}
+      template <typename InputIterator>
+      vector(InputIterator first, typename ft::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type()): _alloc(alloc) {
+        std::cout << "ativou range" << std::endl;
+        return ;
+      }
       vector(const vector& x) {};
       ~vector() {
-        _alloc.destroy(v);
-        _alloc.deallocate(v, _size);
+        //_alloc.destroy(v);
+        //_alloc.deallocate(v, _size);
       };
       // iterators
       iterator begin() {return (iterator(v));};
