@@ -7,7 +7,6 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
-#include <type_traits>
 
 #include "stl_iterator.hpp"
 #include "stl_type_traits.hpp"
@@ -33,22 +32,27 @@ namespace ft {
 
       explicit vector(const allocator_type& alloc = allocator_type()): _alloc(alloc), v(NULL), _size(0), _capacity(0) {};
       explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(n), _capacity(n) {
-        std::cout << "ativou fill" << std::endl;
-        return ;
         v = _alloc.allocate(n);
-        for (size_type i = 0; i < n; ++i) {
+        for (size_type i = 0; i < n; ++i)
           _alloc.construct(&v[i], val);
-        }
       };
       template <typename InputIterator>
-      vector(InputIterator first, typename ft::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type()): _alloc(alloc) {
-        std::cout << "ativou range" << std::endl;
-        return ;
+      vector(InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type()): _alloc(alloc) {
+        size_type i = 0;
+        for (typename ft::vector<value_type>::iterator it = first; it != last; i++)
+          it++;
+        _size = i;
+        _capacity = i;
+        v = _alloc.allocate(i);
+        for (size_type j = 0; first != last; j++) {
+          _alloc.construct(&v[j], *first);
+          first++;
+        }
       }
       vector(const vector& x) {};
       ~vector() {
-        //_alloc.destroy(v);
-        //_alloc.deallocate(v, _size);
+        _alloc.destroy(v);
+        _alloc.deallocate(v, _size);
       };
       // iterators
       iterator begin() {return (iterator(v));};
