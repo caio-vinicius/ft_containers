@@ -83,7 +83,21 @@ namespace ft {
 
       // modifiers
       void assign(size_type n, const value_type& val);
-      void push_back(const value_type& val);
+      void push_back(const value_type& val) {
+          if (_size == _capacity) {
+            value_type *new_v;
+            _capacity = _capacity * 2;
+            new_v = _alloc.allocate(_capacity);
+            for (size_type i = 0; i < _size; i++)
+              _alloc.construct(&new_v[i], v[i]);
+            _alloc.construct(&new_v[_size], val);
+            // be careful
+            this->~vector();
+            v = new_v;
+          } else
+            _alloc.construct(&v[_size], val);
+          _size++;
+      };
       void pop_back();
       void insert(iterator position, size_type n, const value_type& val);
       iterator erase(iterator position);
