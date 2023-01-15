@@ -92,13 +92,21 @@ namespace ft {
 
       // element access
       reference operator[](size_type n) {return (v[n]);};
-      const_reference operator[](size_type n) const;
-      reference at(size_type n);
-      const_reference at(size_type n) const;
-      reference front();
-      const_reference front() const;
-      reference back();
-      const_reference back() const;
+      const_reference operator[](size_type n) const {return v[n];};
+      reference at(size_type n) {
+        if (n >= _size)
+            throw std::out_of_range("n >= _size");
+        return (v[n]);
+      };
+      const_reference at(size_type n) const {
+        if (n >= _size)
+            throw std::out_of_range("n >= _size");
+        return (v[n]);
+      };
+      reference front() {return (*v)};
+      const_reference front() const {return (*v);};
+      reference back() {return (*(end() - 1));};
+      const_reference back() const {return (*(end() - 1));};
 
       // modifiers
       void assign(size_type n, const value_type& val);
