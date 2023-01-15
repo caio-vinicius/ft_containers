@@ -62,7 +62,7 @@ namespace ft {
       reverse_iterator rbegin() {return (reverse_iterator(iterator(v + (_size - 1))));};
       const_reverse_iterator rbegin() const {return (const_reverse_iterator(v + (_size - 1)));};
       reverse_iterator rend() {return (reverse_iterator(iterator(v)));};
-      const_reverse_iterator rend() const {const_reverse_iterator(iterator(v));};
+      const_reverse_iterator rend() const {return const_reverse_iterator(iterator(v));};
       // capacity
       size_type size() const {return (_size);};
       size_type max_size() const {return (_alloc.max_size());};
