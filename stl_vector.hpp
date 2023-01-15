@@ -39,7 +39,7 @@ namespace ft {
       template <typename InputIterator>
       vector(InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last, const allocator_type& alloc = allocator_type()): _alloc(alloc) {
         size_type i = 0;
-        for (typename ft::vector<value_type>::iterator it = first; it != last; i++)
+        for (InputIterator it = first; it != last; i++)
           it++;
         _size = i;
         _capacity = i;
@@ -49,7 +49,7 @@ namespace ft {
           first++;
         }
       }
-      vector(const vector& x) {};
+      vector(const vector& x);
       ~vector() {
         _alloc.destroy(v);
         _alloc.deallocate(v, _size);
@@ -91,10 +91,10 @@ namespace ft {
       };
 
       // element access
-      reference operator[] (size_type n) {return (v[n]);};
-      const_reference operator[] (size_type n) const;
-      reference at (size_type n);
-      const_reference at (size_type n) const;
+      reference operator[](size_type n) {return (v[n]);};
+      const_reference operator[](size_type n) const;
+      reference at(size_type n);
+      const_reference at(size_type n) const;
       reference front();
       const_reference front() const;
       reference back();
