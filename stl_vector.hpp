@@ -103,7 +103,7 @@ namespace ft {
             throw std::out_of_range("n >= _size");
         return (v[n]);
       };
-      reference front() {return (*v)};
+      reference front() {return (*v);};
       const_reference front() const {return (*v);};
       reference back() {return (*(end() - 1));};
       const_reference back() const {return (*(end() - 1));};

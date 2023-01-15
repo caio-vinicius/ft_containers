@@ -1,13 +1,16 @@
 /* Copyright (c) 2023 Caio Souza. All rights reserved. */
 /* 42 */
 
-#include <iostream>
+#ifndef STD
+    #define STD 0
+    #include "stl_vector.hpp"
+    #include "stl_iterator.hpp"
+#else
+	#include <iostream>
+	#include <vector>
+    namespace ft = std;
+#endif
 
-#include <vector>
-#include <iterator>
-
-#include "stl_vector.hpp"
-#include "stl_iterator.hpp"
 #include "test.hpp"
 
 void stl_vector_tests(void) {
@@ -25,55 +28,6 @@ void stl_vector_tests(void) {
     std::cout << '\n';
 }
 
-void normal_iterator_tests(void) {
-    std::cout << "=== RANDOM ACCESS ITERATOR ===" << std::endl;
-    // ============
-    std::cout << "1. Operator *" << std::endl;
-    std::cout << "--> First value of iterator is 5 but should be 404." << std::endl;
-
-    int array[6] = {5, 4, 8, 0, 9, 10};
-    ft::normal_iterator<int> it(array);
-
-    int t = 404;
-    *it = t;
-    if (*it == 404)
-        std::cout << "[OK]";
-    else
-        std::cout << "[KO]";
-    std::cout << std::endl;
-    // ============
-
-    std::cout << "2. Operator ++a a++ --a a--" << std::endl;
-    std::cout << "--> Array has 5,4,8,0,9,10 should print 5480" << std::endl;
-
-    int array2[6] = {5, 4, 8, 0, 9, 10};
-    ft::normal_iterator<int> it2(array2);
-    std::cout << *it2;
-    it2++;
-    std::cout << *it2++;
-    std::cout << *it2;
-    std::cout << *++it2 << std::endl;
-    // ============
-
-    std::cout << "3. Operator []" << std::endl;
-    std::cout << "--> Array has 5,4,8,0,9,10" << std::endl;
-
-    int array3[6] = {5, 4, 8, 0, 9, 10};
-    ft::normal_iterator<int> it3(array3);
-    if (it3[0] == 5 && it3[1] == 4 && it3[2] == 8)
-        std::cout << "[OK]";
-    else
-        std::cout << "[KO]";
-    std::cout << std::endl;
-}
-
-void reverse_iterator_tests(void) {
-    int array3[6] = {5, 4, 8, 0, 9, 10};
-    ft::normal_iterator<int> it3(array3);
-    ft::reverse_iterator<ft::normal_iterator<int> > rev_it(it3);
-    std::cout << *rev_it << std::endl;
-}
-
 void stl_vector_tests2(void) {
   struct units {
     static bool unit1() {
@@ -89,6 +43,11 @@ void stl_vector_tests2(void) {
       return (*v.begin() == 1);
     }
     static bool unit4() {
+      ft::vector<int> first(4,100);
+      ft::vector<int> second(first.begin(), first.end() - 1);
+      return (second.size() == 3);
+    }
+    static bool unit5() {
       return (0);
     }
   };
@@ -98,14 +57,22 @@ void stl_vector_tests2(void) {
 }
 
 int main(void) {
-    //stl_vector_tests2();
-    //std::vector<int> first;                                // empty vector of ints
-    ft::vector<int> second (4,100);                       // four ints with value 100
-    //std::vector<int> third (second.begin(),second.end() - 1);  // iterating through second
-    //std::vector<int> fourth (third);
-    //for (std::vector<int>::iterator it = third.begin(); it != third.end(); ++it)
-    //    std::cout << ' ' << *it;
-    //std::cout << '\n';
-    ft::vector<int> third2(second.begin(),second.end());
+    if (STD)
+        std::cout << "== STD";
+    else
+        std::cout << "== FT";
+    std::cout << std::endl;
+    ft::vector<int> myvector (3,100);
+    std::cout << " capacity: " << myvector.capacity() << " size: " << myvector.size() << std::endl;
+    //it = myvector.insert(myvector.begin() + 2, 200);
+    ft::vector<int>::iterator it = myvector.begin();
+    ft::vector<int>::iterator it2 = myvector.end();
+    myvector.insert(it, it, it2);
+    //myvector.insert(myvector.begin() + 1, 2, 200);
+    std::cout << " capacity: " << myvector.capacity() << " size: " << myvector.size() << std::endl;
+    //myvector.insert(myvector.begin(), 200);
+    //myvector.insert (it,2,300);
+    for (it = myvector.begin(); it < myvector.end(); it++)
+      std::cout << ' ' << *it;
     return (0);
 }
