@@ -12,8 +12,8 @@
 #include "stl_type_traits.hpp"
 
 namespace ft {
-  template <typename T, typename Alloc = std::allocator<T> >
-  class vector {
+    template <typename T, typename Alloc = std::allocator<T> >
+    class vector {
     public:
       // member types
       typedef T value_type;
@@ -66,10 +66,29 @@ namespace ft {
       // capacity
       size_type size() const {return (_size);};
       size_type max_size() const {return (_alloc.max_size());};
-      void resize(size_type n, value_type val = value_type());
+      void resize(size_type n, value_type val = value_type()) {
+        if (n < _size) {
+          for (size_type i = 0; n + i < _size ; i++)
+            _alloc.destroy(&v[n + i]);
+        } else {
+          for (size_type i = 0, j = _size; j + i < n; i++)
+            push_back(val);
+        }
+        _size = n;
+      };
       size_type capacity() const {return (_capacity);};
       bool empty() const {return (_size == 0);};
-      void reserve (size_type n);
+      void reserve (size_type n) {
+        if (n > _capacity) {
+            value_type *new_v;
+            _capacity = n;
+            new_v = _alloc.allocate(_capacity);
+            for (size_type i = 0; i < _size; i++)
+              _alloc.construct(&new_v[i], v[i]);
+            this->~vector();
+            v = new_v;
+        }
+      };
 
       // element access
       reference operator[] (size_type n) {return (v[n]);};
@@ -85,21 +104,51 @@ namespace ft {
       void assign(size_type n, const value_type& val);
       void push_back(const value_type& val) {
           if (_size == _capacity) {
-            value_type *new_v;
-            _capacity = _capacity * 2;
-            new_v = _alloc.allocate(_capacity);
-            for (size_type i = 0; i < _size; i++)
-              _alloc.construct(&new_v[i], v[i]);
-            _alloc.construct(&new_v[_size], val);
-            // be careful
-            this->~vector();
-            v = new_v;
+            reserve(_capacity * 2);
+            _alloc.construct(&v[_size], val);
           } else
             _alloc.construct(&v[_size], val);
           _size++;
       };
-      void pop_back();
-      void insert(iterator position, size_type n, const value_type& val);
+      void pop_back() {
+        if (_size > 0) {
+          _alloc.destroy(&v[_size]);
+          _size--;
+        }
+      };
+
+      iterator insert(iterator position, const value_type& val) {
+        size_type i = 0;
+        for (iterator it = begin(); it != position; it++)
+          i++;
+        if (_size == _capacity) {
+          reserve(_capacity * 2);
+          position = iterator(&v[i]);
+        }
+        for (iterator it = end(); position != it; it--)
+          *it = *(it - 1);
+        *position = val;
+        _size++;
+        return (position);
+      }
+      void insert(iterator position, size_type n, const value_type& val) {
+          for(size_type i = 0; i < n; i++)
+              position = insert(position, val);
+      };
+      template <class InputIterator>
+      void insert (iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+        size_type first_position = 0, last_position = 0;
+        for (iterator it = begin(); it != last; it++) {
+            if (it == first)
+                first_position = last_position;
+            last_position++;
+        }
+        for (size_type gap = last_position - first_position; gap; gap--) {
+            position = insert(position, *(begin() + first_position));
+            first_position += 2;
+        }
+      }
+
       iterator erase(iterator position);
       iterator erase(iterator first, iterator last);
       void swap(vector& x);
@@ -112,7 +161,7 @@ namespace ft {
       allocator_type _alloc;
       size_type _size;
       size_type _capacity;
-  };
+    };
 }
 
 #endif
