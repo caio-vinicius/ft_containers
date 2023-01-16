@@ -125,6 +125,12 @@ namespace ft {
       pointer operator->() const {return &(operator*());};
       reference operator[](difference_type n) const {return (*this->i[n]);};
   };
+    template<class InputIterator>
+    typename iterator_traits<InputIterator>::difference_type distance (InputIterator first, InputIterator last) {
+        typename std::iterator_traits<InputIterator>::difference_type i = 0;
+        for (; first != last; i++, first++) {};
+        return (i);
+    }
 }
 
 #endif
