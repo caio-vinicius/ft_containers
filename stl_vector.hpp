@@ -49,7 +49,13 @@ namespace ft {
                 first++;
             }
         }
-        vector(const vector& x);
+        vector(const vector& x) {
+            _size = x._size;
+            _capacity = x._capacity;
+            v = _alloc.allocate(_capacity);
+            for (size_type i = 0; i < _size; ++i)
+                _alloc.construct(&v[i], x.v[i]);
+        }
         ~vector() {
             if (v) {
                 _alloc.destroy(v);
@@ -179,12 +185,39 @@ namespace ft {
                 first_position += 2;
             }
         }
-        iterator erase(iterator position);
-        iterator erase(iterator first, iterator last);
-        void swap(vector& x);
-        void clear();
+        iterator erase(iterator position) {
+            _alloc.destroy(&*position);
+            for (iterator it = position; it != end(); it++)
+                *it = *(it + 1);
+            _size--;
+            return (position);
+        };
+        iterator erase(iterator first, iterator last) {
+            for (iterator it = first; it != last; it++)
+                _alloc.destroy(&*it);
+            for (iterator it = first; it != end(); it++)
+                *it = *(it + ft::distance(first, last));
+            _size -= ft::distance(first, last);
+            return (first);
+        };
+        void swap(vector& x) {
+            value_type *tmp_v = v;
+            size_type tmp_size = _size;
+            size_type tmp_capacity = _capacity;
+            v = x.v;
+            _size = x._size;
+            _capacity = x._capacity;
+            x.v = tmp_v;
+            x._size = tmp_size;
+            x._capacity = tmp_capacity;
+        };
+        void clear() {
+            for (size_type i = 0; i < _size; i++)
+                _alloc.destroy(&v[i]);
+            _size = 0;
+        };
         // allocator
-        allocator_type get_allocator() const;
+        allocator_type get_allocator() const {return (_alloc);};
     private:
         T *v;
         allocator_type _alloc;
