@@ -33,7 +33,6 @@
 
 # Other
 
-containers
-.ninja_log
-.ninja_deps
 *.swp
+std_containers
+ft_containers
