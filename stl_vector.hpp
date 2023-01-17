@@ -10,6 +10,7 @@
 
 #include "stl_iterator.hpp"
 #include "stl_type_traits.hpp"
+#include "stl_algorithm.hpp"
 
 namespace ft {
     template <typename T, typename Alloc = std::allocator<T> >
@@ -66,7 +67,7 @@ namespace ft {
         iterator begin() {return (iterator(v));};
         const_iterator begin() const {return (const_iterator(v));};
         iterator end() {return (empty() ? begin() : iterator(v + _size));};
-        const_iterator end() const {return (empty() ? begin() : iterator(v + _size));};
+        const_iterator end() const {return (empty() ? begin() : const_iterator(v + _size));};
         reverse_iterator rbegin() {return (reverse_iterator(iterator(v + (_size - 1))));};
         const_reverse_iterator rbegin() const {return (const_reverse_iterator(v + (_size - 1)));};
         reverse_iterator rend() {return (reverse_iterator(iterator(v)));};
@@ -224,6 +225,27 @@ namespace ft {
         size_type _size;
         size_type _capacity;
     };
+
+    template <typename T, typename Alloc> bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+        if (lhs.size() == rhs.size()) {
+            for (typename ft::vector<T, Alloc>::size_type i = 0; i < lhs.size(); i++) {
+                if (lhs[i] != rhs[i])
+                    return (false);
+            }
+            return (true);
+        }
+        return (false);
+    }
+    template <class T, class Alloc> bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {return (!(lhs == rhs));}
+    template <class T, class Alloc> bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+        return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+    }
+    template <class T, class Alloc> bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {return (!(rhs < lhs));}
+    template <class T, class Alloc> bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {return (!(lhs < rhs));}
+    template <class T, class Alloc> bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {return (!(lhs < rhs));}
+
+    template <class T, class Alloc>
+    void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {x.swap(y);}
 }
 
 #endif
