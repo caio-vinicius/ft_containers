@@ -23,21 +23,21 @@ namespace ft {
         normal_iterator(void) : _p(NULL) {};
         explicit normal_iterator(T *p) : _p(p) {};
         ~normal_iterator() {};
-        normal_iterator(normal_iterator const &src) : _p(src._p) {};
-        normal_iterator &operator=(normal_iterator const &rhs) {
+        normal_iterator(const normal_iterator &src) : _p(src._p) {};
+        normal_iterator &operator=(const normal_iterator &rhs) {
             _p = rhs._p;
             return (*this);
         };
 
-        bool operator==(normal_iterator const &rhs) {return _p == rhs._p;};
-        bool operator!=(normal_iterator const &rhs) {return _p != rhs._p;};
-        bool operator<(normal_iterator const &rhs) {return _p < rhs._p;};
-        bool operator>(normal_iterator const &rhs) {return _p > rhs._p;};
-        bool operator<=(normal_iterator const &rhs) {return _p <= rhs._p;};
-        bool operator>=(normal_iterator const &rhs) {return _p >= rhs._p;};
-        normal_iterator operator+(int const rhs) {return (normal_iterator(_p + rhs));};
-        normal_iterator operator-(int const rhs) {return (normal_iterator(_p - rhs));};
-        T &operator*() const {return *_p;};
+        bool operator==(const normal_iterator &rhs) const {return _p == rhs._p;};
+        bool operator!=(const normal_iterator &rhs) const {return _p != rhs._p;};
+        bool operator<(const normal_iterator &rhs) const {return _p < rhs._p;};
+        bool operator>(const normal_iterator &rhs) const {return _p > rhs._p;};
+        bool operator<=(const normal_iterator &rhs) const {return _p <= rhs._p;};
+        bool operator>=(const normal_iterator &rhs) const {return _p >= rhs._p;};
+        normal_iterator operator+(difference_type rhs) const {return (normal_iterator(_p + rhs));};
+        normal_iterator operator-(difference_type rhs) const {return (normal_iterator(_p - rhs));};
+        reference operator*() const {return *_p;};
         normal_iterator &operator+=(int const rhs) {
             _p += rhs;
             return (*this);
@@ -64,7 +64,7 @@ namespace ft {
             --*this;
             return (rai);
         };
-        T& operator[](int const &n) {return (this->_p[n]);};
+        T& operator[](difference_type &n) const {return (this->_p[n]);};
     };
 
     template <typename Iterator>
@@ -92,7 +92,7 @@ namespace ft {
             iterator_type base() const {return (*i);};
             reference operator*() const {
                 Iterator it = i;
-            return (*--it);
+                return (*--it);
             };
             reverse_iterator operator+(difference_type n) const {return (reverse_iterator(i - n));};
             reverse_iterator operator-(difference_type n) const {return (reverse_iterator(i + n));};
@@ -122,7 +122,7 @@ namespace ft {
                 ++*this;
                 return (rev_it);
             };
-            pointer operator->() const {return &(operator*());};
+            pointer operator->() const {return (&(operator*()));};
             reference operator[](difference_type n) const {return (*this->i[n]);};
     };
 
