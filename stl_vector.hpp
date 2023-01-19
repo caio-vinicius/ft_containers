@@ -58,20 +58,19 @@ namespace ft {
                 _alloc.construct(&v[i], x.v[i]);
         }
         ~vector() {
-            if (v) {
-                _alloc.destroy(v);
-                _alloc.deallocate(v, _size);
-            }
+            clear();
+            _alloc.deallocate(v, _capacity);
         };
+
         // iterators
         iterator begin() {return (iterator(v));};
         const_iterator begin() const {return (const_iterator(v));};
         iterator end() {return (empty() ? begin() : iterator(v + _size));};
         const_iterator end() const {return (empty() ? begin() : const_iterator(v + _size));};
-        reverse_iterator rbegin() {return (reverse_iterator(iterator(v + (_size - 1))));};
-        const_reverse_iterator rbegin() const {return (const_reverse_iterator(v + (_size - 1)));};
-        reverse_iterator rend() {return (reverse_iterator(iterator(v)));};
-        const_reverse_iterator rend() const {return const_reverse_iterator(iterator(v));};
+        reverse_iterator rbegin() {return (reverse_iterator(end()));};
+        const_reverse_iterator rbegin() const {return (const_reverse_iterator(end()));};
+        reverse_iterator rend() {return (reverse_iterator(begin()));};
+        const_reverse_iterator rend() const {return (const_reverse_iterator(begin()));};
         // capacity
         size_type size() const {return (_size);};
         size_type max_size() const {return (_alloc.max_size());};
@@ -94,7 +93,9 @@ namespace ft {
                 new_v = _alloc.allocate(_capacity);
                 for (size_type i = 0; i < _size; i++)
                     _alloc.construct(&new_v[i], v[i]);
-                this->~vector();
+                for (size_type i = 0; i < _size; i++)
+                    _alloc.destroy(&v[i]);
+                _alloc.deallocate(v, this->capacity());
                 v = new_v;
             }
         };
@@ -143,15 +144,17 @@ namespace ft {
         };
         void push_back(const value_type& val) {
             if (_size == _capacity) {
-                reserve(_capacity * 2);
-                _alloc.construct(&v[_size], val);
-            } else
-                _alloc.construct(&v[_size], val);
+                if (_capacity == 0)
+                    reserve(1);
+                else
+                    reserve(_capacity * 2);
+            }
+            _alloc.construct(&v[_size], val);
             _size++;
         };
         void pop_back() {
             if (_size > 0) {
-                _alloc.destroy(&v[_size]);
+                _alloc.destroy(&v[_size - 1]);
                 _size--;
             }
         };
@@ -160,12 +163,15 @@ namespace ft {
             for (iterator it = begin(); it != position; it++)
                 i++;
             if (_size == _capacity) {
-                reserve(_capacity * 2);
+                if (_capacity == 0)
+                    reserve(1);
+                else
+                    reserve(_capacity * 2);
                 position = iterator(&v[i]);
             }
             for (iterator it = end(); position != it; it--)
                 *it = *(it - 1);
-            *position = val;
+            _alloc.construct(&(*position), val);
             _size++;
             return (position);
         }
@@ -175,17 +181,9 @@ namespace ft {
         };
         template <class InputIterator>
         void insert(iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
-            size_type first_position = 0, last_position = 0;
-            for (iterator it = begin(); it != last; it++) {
-                if (it == first)
-                    first_position = last_position;
-                last_position++;
-            }
-            for (size_type gap = last_position - first_position; gap; gap--) {
-                position = insert(position, *(begin() + first_position));
-                first_position += 2;
-            }
-        }
+            for (; first != last; first++)
+                position = insert(position, *first);
+        };
         iterator erase(iterator position) {
             _alloc.destroy(&*position);
             for (iterator it = position; it != end(); it++)
@@ -226,7 +224,7 @@ namespace ft {
         size_type _capacity;
     };
 
-    template <typename T, typename Alloc> bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+    template <typename T, typename Alloc> bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
         if (lhs.size() == rhs.size()) {
             for (typename ft::vector<T, Alloc>::size_type i = 0; i < lhs.size(); i++) {
                 if (lhs[i] != rhs[i])
