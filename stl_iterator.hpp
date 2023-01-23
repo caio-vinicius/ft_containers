@@ -64,7 +64,7 @@ namespace ft {
             --*this;
             return (rai);
         };
-        T& operator[](difference_type &n) const {return (this->_p[n]);};
+        T& operator[](difference_type n) const {return (this->_p[n]);};
     };
 
     template <typename Iterator>
@@ -89,7 +89,7 @@ namespace ft {
                 return (*this);
             };
 
-            iterator_type base() const {return (*i);};
+            iterator_type base() const {return (i);};
             reference operator*() const {
                 Iterator it = i;
                 return (*--it);
@@ -102,7 +102,7 @@ namespace ft {
             };
             reverse_iterator    operator++(int) {
                 reverse_iterator rev_it(*this);
-                --*this;
+                --i;
                 return (rev_it);
             };
             reverse_iterator &operator+=(difference_type n) {
@@ -119,11 +119,11 @@ namespace ft {
             };
             reverse_iterator    operator--(int) {
                 reverse_iterator rev_it(*this);
-                ++*this;
+                ++i;
                 return (rev_it);
             };
             pointer operator->() const {return (&(operator*()));};
-            reference operator[](difference_type n) const {return (*this->i[n]);};
+            reference operator[](difference_type n) const {return (*operator+(n));};
     };
 
     template<class InputIterator>

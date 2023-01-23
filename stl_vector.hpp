@@ -159,44 +159,66 @@ namespace ft {
             }
         };
         iterator insert(iterator position, const value_type& val) {
-            size_type i = 0;
-            for (iterator it = begin(); it != position; it++)
-                i++;
-            if (_size == _capacity) {
-                if (_capacity == 0)
-                    reserve(1);
-                else
-                    reserve(_capacity * 2);
-                position = iterator(&v[i]);
+            size_type distance = ft::distance(begin(), position);
+            if (_capacity == 0) {
+                push_back(val);
+                return (begin());
             }
-            for (iterator it = end(); position != it; it--)
-                *it = *(it - 1);
-            _alloc.construct(&(*position), val);
+            value_type *tmp;
+
+            if (_capacity <= _size) {
+                _capacity = _capacity << 1;
+            }
+            tmp = _alloc.allocate(_capacity);
+            for (size_type i = 0; i < distance; i++) {
+                _alloc.construct(&tmp[i], v[i]);
+                _alloc.destroy(&v[i]);
+            }
+            _alloc.construct(&tmp[distance], val);
+            for (size_type i = distance + 1; i < _size + 1 ; i++) {
+                _alloc.construct(&tmp[i], v[i - 1]);
+                _alloc.destroy(&v[i - 1]);
+            }
+            _alloc.deallocate(v, _size);
             _size++;
-            return (position);
+            v = tmp;
+            return(iterator(v + distance));
         }
         void insert(iterator position, size_type n, const value_type& val) {
+            if (_capacity  == 0 && n != 1) {
+                reserve(n);
+                position = begin();
+            }
             for(size_type i = 0; i < n; i++)
                 position = insert(position, val);
         };
         template <class InputIterator>
         void insert(iterator position, InputIterator first, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
-            for (; first != last; first++)
-                position = insert(position, *first);
+             difference_type n = ft::distance(first, last);
+             if (_capacity  == 0 && n != 1) {
+                 reserve(n);
+                 position = begin();
+             }
+             for (; first != last; first++) {
+                 position = insert(position, *first);
+                 position++;
+             }
         };
         iterator erase(iterator position) {
+            if (position == end() && !empty()) {
+                position--;
+            }
             _alloc.destroy(&*position);
-            for (iterator it = position; it != end(); it++)
+            for (iterator it = position; it != end() - 1; it++) {
                 *it = *(it + 1);
+            }
             _size--;
             return (position);
         };
         iterator erase(iterator first, iterator last) {
-            for (iterator it = first; it != last; it++)
-                _alloc.destroy(&*it);
-            for (iterator it = first; it != end(); it++)
-                *it = *(it + ft::distance(first, last));
-            _size -= ft::distance(first, last);
+            for (difference_type i = ft::distance(first, last); i > 0; i--) {
+                first = erase(first);
+            }
             return (first);
         };
         void swap(vector& x) {

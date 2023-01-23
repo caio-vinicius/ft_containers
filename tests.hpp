@@ -1,6 +1,8 @@
 #ifndef TESTS_HPP
 # define TESTS_HPP
 
+#include "UnitTest.hpp"
+
 #ifndef STD
     #define STD 0
     #include "stl_vector.hpp"
@@ -11,21 +13,26 @@
     namespace ft = std;
 #endif
 
-#include "UnitTest.hpp"
+typedef std::string string;
+std::string *arraySet( void );
+std::string *test( void );
+class Sets {
+    std::string *names;
 
-void testVectorIterator(UnitTest unit);
-void testVectorCapacity(UnitTest unit);
+    Sets( void ) {
+        names = arraySet();
+    };
+    ~Sets( void ) {
+        delete[] names;
+    }
+};
 
-void testVectorModifiers(UnitTest unit);
-void testVectorPushBack(UnitTest unit);
-void testVectorPopBack(UnitTest unit);
-void testVectorInsert(UnitTest unit);
+void vector_iterator(UnitTest& unit);
+void vector_reverse_iterator(UnitTest& unit);
+void vector_modifiers(UnitTest& unit);
+void vector_elements_access(UnitTest& unit);
+void vector_constructors(UnitTest& unit);
+void vector_capacity(UnitTest& unit);
+void vector_non_member_functions(UnitTest& unit);
 
-template <typename T>
-void pvec(typename ft::vector<T> vec) {
-    std::cout << "pvec:";
-    for (size_t i = 0; i < vec.size(); i++)
-        std::cout << " " << vec[i];
-    std::cout << std::endl;
-}
 #endif
