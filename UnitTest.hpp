@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstring>
 
-#define RESET_COLOR "\033[0m" 
+#define RESET_COLOR "\033[0m"
 
 /*
 ** testSuite settings
@@ -60,7 +60,7 @@ class UnitTest {
 
 		void assertTrue(bool condition, std::string message = "") {
 			std::ostream* output_stream;
-			
+
 			message = !message.compare("") ? message : " " + message;
 			output_stream = condition ?  &std::cerr : &std::cout;
 			_passed = condition ? _passed + 1 : _passed;
@@ -182,7 +182,7 @@ class UnitTest {
 		}
 
 		void status( void ) {
-			std::cout << _passed << "/" << _total << std::endl;
+			std::cout << _passed << "/" << _total << " passed" << " - ";
 		}
 
 };

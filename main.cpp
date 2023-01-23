@@ -16,11 +16,12 @@ int main( void ) {
     unit.addSuit(vector_modifiers, "MODIFIERS");
     unit.addSuit(vector_capacity, "CAPACITY");
     unit.addSuit(vector_elements_access, "ELEMENT ACCESS");
+    unit.addSuit(map, "MAP");
     unit.run();
     unit.status();
     unit.clear();
     clock_t end = clock();
     double elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
-    std::cout << "Tempo de execução: " << elapsed_time * 1000 << " ms." << std::endl;
+    std::cout << "Execution time: " << elapsed_time * 1000 << " ms." << std::endl;
     return (unit.exitStatus());
 }
