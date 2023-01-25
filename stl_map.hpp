@@ -89,7 +89,9 @@ namespace ft {
             void clear();
 
             // Observers
-            key_compare key_comp() const;
+            key_compare key_comp() const {
+                return (_comp);
+            };
             value_compare value_comp() const {
                 return value_compare(_comp);
             }

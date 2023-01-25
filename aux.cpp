@@ -48,7 +48,7 @@ void print_values( std::map<std::string, int> mymap ) {
 	{
 		std::cout << it->first    // string (key)
 				<< ':'
-				<< it->second   // string's value 
+				<< it->second   // string's value
 				<< std::endl;
 	}
 }
