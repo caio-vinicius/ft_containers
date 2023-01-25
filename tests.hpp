@@ -53,5 +53,8 @@ void map_iterators(UnitTest& unit);
 void map_capacity(UnitTest& unit);
 void map_element_access(UnitTest& unit);
 void map_modifiers(UnitTest& unit);
+void map_observers(UnitTest& unit);
+void map_operations(UnitTest& unit);
+
 
 #endif

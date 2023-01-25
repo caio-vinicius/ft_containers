@@ -21,6 +21,8 @@ int main( void ) {
     unit.addSuit(map_capacity, "MAP - CAPACITY");
     unit.addSuit(map_element_access, "MAP - ELEMENT ACCESS");
     unit.addSuit(map_modifiers, "MAP - MODIFIERS");
+    unit.addSuit(map_observers, "MAP - OBSERVERS");
+    unit.addSuit(map_operations, "MAP - OBSERVERS");
     unit.run();
     unit.status();
     unit.clear();
