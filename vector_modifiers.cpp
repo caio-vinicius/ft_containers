@@ -32,7 +32,7 @@ void	testEraseRange(UnitTest& unit) {
 	delete[] names;
 }
 
-void	testErase(UnitTest& unit) {
+static void	testErase(UnitTest& unit) {
 	string *names = arraySet();
 
 	{
@@ -185,14 +185,14 @@ void	testAssignRange(UnitTest& unit) {
 	{
 		ft::vector<string> vec;
 		vec.assign(vect.begin(), vect.begin());
-		
+
 		unit.assertTrue(vec.size() == 0, "vec.size() == 0");
 		unit.assertTrue(vec.capacity() == 0, "vec.capacity() == 0");
 	}
 	{
 		ft::vector<string> vec;
 		vec.assign(vect.begin(), vect.end());
-		
+
 		unit.assertTrue(vec.size() == 5, "vec.size() == 5");
 		unit.assertTrue(vec.capacity() == 5, "vec.capacity() == 5");
 		unit.assertTrue(ft::equal(vec.begin(), vec.end(), names), "ft::equal(vec.begin(), vec.end(), names)");
@@ -200,7 +200,7 @@ void	testAssignRange(UnitTest& unit) {
 	{
 		ft::vector<string> vec(names, names + 5);
 		vec.assign(vect.begin(), vect.begin() + 3);
-		
+
 		unit.assertTrue(vec.size() == 3, "vec.size() == 3");
 		unit.assertTrue(vec.capacity() == 5, "vec.capacity() == 5");
 		unit.assertTrue(ft::equal(vec.begin(), vec.end(), names), "ft::equal(vec.begin(), vec.end(), names)");
@@ -208,7 +208,7 @@ void	testAssignRange(UnitTest& unit) {
 	{
 		ft::vector<string> vec(names, names + 5);
 		vec.assign(vec.begin() + 2, vec.begin() + 4);
-		
+
 		unit.assertTrue(vec.size() == 2, "vec.size() == 2");
 		unit.assertTrue(vec.capacity() == 5, "vec.capacity() == 5");
 		unit.assertTrue(ft::equal(vec.begin() + 2 , vec.begin() + 4, names + 2), "ft::equal(vec.begin() + 2 , vec.begin() + 4, names + 2)");
