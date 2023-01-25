@@ -18,8 +18,17 @@
 #include <map>
 
 typedef std::string string;
+typedef std::map<string, int>::iterator map_iterator;
+
+typedef std::string string;
 std::string *arraySet( void );
 std::string *test( void );
+
+bool compareMapAndPair(std::map<string, int> map, std::pair<string, int> *arr, size_t n);
+string *setCars( void );
+void print_values( std::map<std::string, int> mymap );
+std::pair<string, int> *getCars( void );
+
 class Sets {
     std::string *names;
 
@@ -39,6 +48,10 @@ void vector_constructors(UnitTest& unit);
 void vector_capacity(UnitTest& unit);
 void vector_non_member_functions(UnitTest& unit);
 
-void map(UnitTest& unit);
+void map_constructors(UnitTest& unit);
+void map_iterators(UnitTest& unit);
+void map_capacity(UnitTest& unit);
+void map_element_access(UnitTest& unit);
+void map_modifiers(UnitTest& unit);
 
 #endif
