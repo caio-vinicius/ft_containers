@@ -7,6 +7,7 @@
 #include "tests.hpp"
 #include "stl_utility.hpp"
 #include "stl_functional.hpp"
+#include "stl_tree.hpp"
 
 namespace ft {
 
@@ -22,12 +23,15 @@ namespace ft {
             typedef typename allocator_type::const_reference const_reference;
             typedef typename allocator_type::pointer pointer;
             typedef typename allocator_type::const_pointer const_pointer;
-            typedef typename allocator_type::iterator iterator;
-            typedef typename allocator_type::const_iterator const_iterator;
-            typedef typename allocator_type::reverse_iterator reverse_iterator;
-            typedef typename allocator_type::const_reverse_iterator const_reverse_iterator;
+            typedef int iterator;
+            typedef int const_iterator;
+            typedef int reverse_iterator;
+            typedef int const_reverse_iterator;
             typedef typename allocator_type::difference_type difference_type;
             typedef typename allocator_type::size_type size_type;
+
+            typedef ft::Rb_tree<key_type, value_type, key_compare, allocator_type> Rb_tree_;
+            Rb_tree_ _black;
 
             class value_compare : public ft::binary_function<value_type, value_type, bool> {
                 friend class map<Key, T, Compare, Alloc>;
@@ -45,7 +49,6 @@ namespace ft {
             };
 
             // Constructors
-            map(): _size(0), _comp(), _alloc() {};
             explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()): _size(0), _comp(comp), _alloc(alloc) {};
             template <class InputIterator>
             map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type& alloc = allocator_type()) : _size(0), _comp(comp), _alloc(alloc) {
@@ -54,7 +57,7 @@ namespace ft {
             map(const map &x): _size(0), _comp(x._comp), _alloc(x._alloc) {};
 
             // Destructor
-            ~map();
+            ~map() {};
 
             // Operators
             map &operator=(const map &x);
@@ -78,7 +81,9 @@ namespace ft {
             mapped_type &operator[](const key_type &k);
 
             // Modifiers
-            ft::pair<iterator, bool> insert(const value_type &val);
+            /*ft::pair<iterator, bool>*/void insert(const value_type &val) {
+                _black.insert(val);
+            };
             iterator insert(iterator position, const value_type &val);
             template <class InputIterator>
             void insert(InputIterator first, InputIterator last);

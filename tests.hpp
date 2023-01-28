@@ -55,6 +55,6 @@ void map_element_access(UnitTest& unit);
 void map_modifiers(UnitTest& unit);
 void map_observers(UnitTest& unit);
 void map_operations(UnitTest& unit);
-
+void map_pair(UnitTest& unit);
 
 #endif
