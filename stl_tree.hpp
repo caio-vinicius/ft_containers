@@ -25,9 +25,60 @@ namespace ft {
 			Rb_node*		_right;
 			char			_color;
 
+            typedef Rb_node<Key, value_type> Rb_node_type;
+
 			Rb_node( void ): _parent(this), _left(this), _right(this), _color(BLACK) {};
 			Rb_node( const value_type& data, Rb_node* parent, Rb_node* left, Rb_node* right, char color = RED ): _data(data), _parent(parent), _left(left), _right(right), _color(color) {};
-	};
+
+            Rb_node_type *minimum(Rb_node_type *node, Rb_node_type *Nil) {
+                while (node->_left != Nil)
+                    node = node->_left;
+                return node;
+            }
+
+            Rb_node_type *maximum(Rb_node_type *node, Rb_node_type *Nil) {
+                while (node->_right != Nil)
+                    node = node->_right;
+                return node;
+            }
+
+            static Rb_node_type *next(Rb_node_type *node, Rb_node_type *Nil) {
+                if (node->_right != Nil) {
+                    node = node->_right;
+                    while (node->_left != Nil)
+                        node = node->_left;
+                }
+                else {
+                    Rb_node_type *parent = node->_parent;
+                    while (node == parent->_right) {
+                        node = parent;
+                        parent = parent->_parent;
+                    }
+                    if (node->_right != parent)
+                        node = parent;
+                }
+                return node;
+            }
+
+            Rb_node_type *prev(Rb_node_type *node, Rb_node_type *Nil) {
+                if (node->_color == RED && node->_parent->_parent == node)
+                    node = node->_right;
+                else if (node->_left != Nil) {
+                    node = node->_left;
+                    while (node->_right != Nil)
+                        node = node->_right;
+                }
+                else {
+                    Rb_node_type *parent = node->_parent;
+                    while (node == parent->_left) {
+                        node = parent;
+                        parent = parent->_parent;
+                    }
+                    node = parent;
+                }
+                return node;
+            }
+    }; // Rb_node
 
 	template <typename Key, typename value_type, typename Compare = std::less<Key>, typename Alloc = std::allocator<value_type> >
 	class Rb_tree {
@@ -43,10 +94,16 @@ namespace ft {
 
 	public:
 
-		Rb_tree( void ): root(NULL) {
-			Nil = new Rb_node_type;
+		Rb_tree(void): root(NULL) {
+            Nil = _node_allocator.allocate(1);
+            _node_allocator.construct(Nil, Rb_node_type());
 			root = Nil;
 		}
+
+        ~Rb_tree(void) {
+            _node_allocator.destroy(Nil);
+            _node_allocator.deallocate(Nil, 1);
+        }
 
 		void insert(value_type data) {
 			Rb_node_type *y = Nil;
@@ -150,50 +207,46 @@ namespace ft {
 		}
 
 		void nodeDelete(Rb_node_type *node) {
-			Rb_node_type *y = node;
-			Rb_node_type *x;
-			char color = node->_color;
-			if (node->_left == Nil) {
-				x = node->_right;
-				transplant(node, node->_right);
-			} else if (node->_right == Nil) {
-				x = node->_left;
-				transplant(node, node->_left);
-			} else  {
-				y = treeMinimum(node->_right);
-				color = y->_color;
-				x = y->_right;
-				if (y->_parent == node) {
-					x->_parent = y;
-				} else  {
-					transplant(y, y->_right);
-					y->_right = node->_right;
-					y->_right->_parent = node;
-				}
-				transplant(node, y);
-				y->_left = node->_left;
-				y->_left->_parent = y;
-				y->_color = node->_color;
-			}
-			if (color == BLACK) {
-				deleteFixUp(x);
-			}
+            Rb_node_type *y = node;
+            Rb_node_type *x;
+            char y_original_color = y->_color;
+            if (node->_left == Nil) {
+                x = node->_right;
+                transplant(node, node->_right);
+            } else if (node->_right == Nil) {
+                x = node->_left;
+                transplant(node, node->_left);
+            } else {
+                y = treeMinimum(node->_right);
+                y_original_color = y->_color;
+                x = y->_right;
+                if (y->_parent == node) {
+                    x->_parent = y;
+                } else {
+                    transplant(y, y->_right);
+                    y->_right = node->_right;
+                    y->_right->_parent = y;
+                }
+                transplant(node, y);
+                y->_left = node->_left;
+                y->_left->_parent = y;
+                y->_color = node->_color;
+            }
+            if (y_original_color == BLACK) {
+                deleteFixUp(x);
+            }
 		}
 
 		void transplant(Rb_node_type *u, Rb_node_type *v) {
-			if (u->_parent == Nil) {
-				root = v;
-			} else if (u == u->_parent->_left) {
-				u->_parent->_left = v;
-			} else {
-				u->_parent->_right = v;
-				v->_parent = u->_parent;
-			}
-		}
-
-		void delete_this( void ) {
-			nodeDelete(root->_right->_right);
-		}
+            if (u->_parent == Nil) {
+                root = v;
+            } else if (u == u->_parent->_left) {
+                u->_parent->_left = v;
+            } else {
+                u->_parent->_right = v;
+            }
+            v->_parent = u->_parent;
+        }
 
 		void deleteFixUp(Rb_node_type *x) {
 			Rb_node_type *w;
@@ -253,7 +306,6 @@ namespace ft {
 		}
 
 		void printTree(Rb_node_type *root, int level, std::string side) {
-
 			if (root == Nil)
 				return;
 			printTree(root->_right, level + 1, "R");
@@ -271,6 +323,27 @@ namespace ft {
 		void printBT(void) {
 			printTree(root, 0, "ROOT");
 		}
+
+        void nodeDestroy(Rb_node_type *node) {
+            _node_allocator.destroy(node);
+            _node_allocator.deallocate(node, 1);
+        }
+
+        void clear(Rb_node_type *node) {
+            if (node == Nil)
+                return ;
+            clear(node->_left);
+            clear(node->_right);
+            nodeDestroy(node);
+        }
+
+        void printInorder(Rb_node_type *node) {
+            if (node == Nil)
+                return;
+            printInorder(node->_left);
+            std::cout << node->_data.first << " ";
+            printInorder(node->_right);
+        }
 	};
 }
 

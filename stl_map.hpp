@@ -8,6 +8,7 @@
 #include "stl_utility.hpp"
 #include "stl_functional.hpp"
 #include "stl_tree.hpp"
+#include "stl_map_iterator.hpp"
 
 namespace ft {
 
@@ -23,7 +24,7 @@ namespace ft {
             typedef typename allocator_type::const_reference const_reference;
             typedef typename allocator_type::pointer pointer;
             typedef typename allocator_type::const_pointer const_pointer;
-            typedef int iterator;
+            typedef typename ft::map_iterator<Rb_node<key_type, value_type> > iterator;
             typedef int const_iterator;
             typedef int reverse_iterator;
             typedef int const_reverse_iterator;
@@ -63,7 +64,7 @@ namespace ft {
             map &operator=(const map &x);
 
             // Iterators
-            iterator begin();
+            iterator begin() { return iterator(_black.root); };
             const_iterator begin() const;
             iterator end();
             const_iterator end() const;
