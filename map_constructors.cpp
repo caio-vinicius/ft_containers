@@ -20,11 +20,11 @@ static void testConstructor(UnitTest& unit) {
 		ft::map<string, int> cars(arr, arr + 6);
 		unit.assertTrue(compareMapAndPair(cars, arr, 6), "equal");
 		unit.assertTrue(cars.size() == 6, "size 6");
+
 		ft::map<string, int> cars2(cars);
 		unit.assertTrue(compareMapAndPair(cars2, arr, 6), "equal");
 		unit.assertTrue(cars2.size() == 6, "size 6");
-		ft::map<string, int>::iterator it = cars2.begin();
-
+		//ft::map<string, int>::iterator it = cars2.begin();
 	}
 }
 

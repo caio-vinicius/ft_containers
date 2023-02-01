@@ -1,12 +1,12 @@
 #include "tests.hpp"
 
 static void testInsertSingleElement(UnitTest& unit) {
-    std::map<char, int> map;
-    std::pair<std::map<char, int>::iterator, bool> ret;
+    ft::map<char, int> map;
+    ft::pair<ft::map<char, int>::iterator, bool> ret;
 
-    map.insert(std::pair<char, int>('a', 100));
+    map.insert(ft::pair<char, int>('a', 100));
 
-    ret = map.insert(std::pair<char, int>('z', 200));
+    ret = map.insert(ft::pair<char, int>('z', 200));
     unit.assertTrue(ret.second, "insert() returned true");
     unit.assertTrue(ret.first->first == 'z', "ret.first->first == 'z'");
     unit.assertTrue(ret.first->second == 200, "ret.first->second == 200");
@@ -14,7 +14,7 @@ static void testInsertSingleElement(UnitTest& unit) {
     unit.assertTrue(map['a'] == 100, "map['a'] == 100");
     unit.assertTrue(map['z'] == 200, "map['z'] == 200");
 
-    ret = map.insert(std::pair<char, int>('z', 300));
+    ret = map.insert(ft::pair<char, int>('z', 300));
     unit.assertTrue(ret.second == false, "insert() returned false");
     unit.assertTrue(ret.first->first == 'z', "ret.first->first == 'z'");
     unit.assertTrue(ret.first->second == 200, "ret.first->second == 200");
@@ -23,9 +23,9 @@ static void testInsertSingleElement(UnitTest& unit) {
 }
 
 static void testInsertWithHint(UnitTest& unit) {
-    std::pair<string, int> *p = getCars();
-    std::map<string, int> map(p, p + 2);
-    std::map<string, int>::iterator it = map.begin();
+    ft::pair<string, int> *p = getCars();
+    ft::map<string, int> map(p, p + 2);
+    ft::map<string, int>::iterator it = map.begin();
 
     it = map.insert(it, p[5]);
     unit.assertTrue(map.size() == 3, "map.size() == 3");
@@ -39,8 +39,8 @@ static void testInsertWithHint(UnitTest& unit) {
 }
 
 static void testInsertRange(UnitTest& unit) {
-    std::pair<string, int> *p = getCars();
-    std::map<string, int> map(p, p + 2);
+    ft::pair<string, int> *p = getCars();
+    ft::map<string, int> map(p, p + 2);
 
     map.insert(p + 4, p + 6);
     unit.assertTrue(map.count("Subaru WRX") == 1, "map.count('Subaru WRX') == 1");
@@ -48,8 +48,8 @@ static void testInsertRange(UnitTest& unit) {
 }
 
 static void testEraseIterator(UnitTest& unit) {
-    std::pair<string, int> *p = getCars();
-    std::map<string, int> map(p, p + 3);
+    ft::pair<string, int> *p = getCars();
+    ft::map<string, int> map(p, p + 3);
     map_iterator it;
 
     it = map.find(p[0].first);
@@ -61,8 +61,8 @@ static void testEraseIterator(UnitTest& unit) {
 }
 
 static void testEraseKey(UnitTest& unit) {
-    std::pair<string, int> *p = getCars();
-    std::map<string, int> map(p, p + 3);
+    ft::pair<string, int> *p = getCars();
+    ft::map<string, int> map(p, p + 3);
     map_iterator it;
 
     map.erase(p[1].first);
@@ -73,8 +73,8 @@ static void testEraseKey(UnitTest& unit) {
 }
 
 static void testEraseRange(UnitTest& unit) {
-    std::pair<string, int> *p = getCars();
-    std::map<string, int> map(p, p + 3);
+    ft::pair<string, int> *p = getCars();
+    ft::map<string, int> map(p, p + 3);
     map_iterator it;
 
     map.erase(map.begin(), map.end());
@@ -83,9 +83,9 @@ static void testEraseRange(UnitTest& unit) {
 }
 
 static void testSwap(UnitTest& unit) {
-    std::pair<string, int> *p = getCars();
-    std::map<string, int> map(p, p + 3);
-    std::map<string, int> map2;
+    ft::pair<string, int> *p = getCars();
+    ft::map<string, int> map(p, p + 3);
+    ft::map<string, int> map2;
 
     map.swap(map2);
     unit.assertTrue(map.size() == 0, "map.size() == 0");
@@ -101,8 +101,8 @@ static void testSwap(UnitTest& unit) {
 }
 
 static void testClear(UnitTest& unit) {
-    std::pair<string, int> *p = getCars();
-    std::map<string, int> map(p, p + 6);
+    ft::pair<string, int> *p = getCars();
+    ft::map<string, int> map(p, p + 6);
 
     map.clear();
     unit.assertTrue(map.size() == 0, "map.size() == 0");

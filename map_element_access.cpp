@@ -1,7 +1,7 @@
 #include "tests.hpp"
 
 static void testOffSetOperator(UnitTest& unit) {
-	std::map<string, string> map;
+	ft::map<string, string> map;
 
 	map["Luigi"] = "Rabudo";
 	unit.assertTrue(map["Luigi"] == "Rabudo", "Luigi == Rabudo");

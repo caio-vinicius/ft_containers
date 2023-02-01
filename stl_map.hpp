@@ -10,7 +10,7 @@ namespace ft {
 	template <typename Key, typename T, typename Compare = std::less<Key>, typename Alloc = std::allocator<ft::pair<const Key,T> > >
 	class map {
 		public:
-			typedef Key	key_type;
+            typedef Key	key_type;
 			typedef T	mapped_type;
 			typedef ft::pair<const Key, T>						value_type;
 			typedef Compare										key_compare;
@@ -23,13 +23,14 @@ namespace ft {
 
 			typedef ft::Rb_tree<key_type, value_type, key_compare, allocator_type> Rb_type;
 			typedef typename Rb_type::iterator iterator;
+            typedef typename Rb_type::const_iterator const_iterator;
+			typedef typename Rb_type::reverse_iterator reverse_iterator;
+            typedef typename Rb_type::const_reverse_iterator const_reverse_iterator;
 			typedef typename Rb_type::size_type size_type;
 
 
-			explicit map (const key_compare& comp = key_compare(),
-			  const allocator_type& alloc = allocator_type()): _comp(comp), _alloc(alloc) { };
-			map(const map &x): rb_tree(x.rb_tree), _comp(x._comp), _alloc(x._alloc) { };
-
+			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()): _comp(comp), _alloc(alloc) {};
+			map(const map &x): rb_tree(x.rb_tree), _comp(x._comp), _alloc(x._alloc) {};
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type& alloc = allocator_type()) : _comp(comp), _alloc(alloc) {
                 for (; first != last; first++) {
@@ -44,13 +45,52 @@ namespace ft {
 				return(ft::make_pair<iterator, bool>(rb_tree.insert(val), true));
 			}
 
+            iterator insert(iterator position, const value_type& val) {
+                (void)position;
+                return (insert(val).first);
+            }
+
+            template <class InputIterator>
+            void insert(InputIterator first, InputIterator last) {
+                for (; first != last; first++)
+                    insert(*first);
+            }
+
 			iterator begin( void ) {
 				return (rb_tree.begin());
 			}
 
+            const_iterator begin( void ) const {
+                return (rb_tree.begin());
+            }
+
 			iterator end( void ) {
 				return (rb_tree.end());
 			}
+
+            const_iterator end( void ) const {
+                return (rb_tree.end());
+            }
+
+            reverse_iterator rbegin( void ) {
+                return (rb_tree.rbegin());
+            }
+
+            const_reverse_iterator rbegin( void ) const {
+                return (rb_tree.rbegin());
+            }
+
+            reverse_iterator rend( void ) {
+                return (rb_tree.rend());
+            }
+
+            const_reverse_iterator rend( void ) const {
+                return (rb_tree.rend());
+            }
+
+            bool empty( void ) const {
+                return (rb_tree.empty());
+            }
 
 			size_type size( void ) {
 				return (rb_tree.size());

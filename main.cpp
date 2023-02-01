@@ -17,10 +17,10 @@ int main( void ) {
     //unit.addSuit(vector_capacity, "CAPACITY");
     //unit.addSuit(vector_elements_access, "ELEMENT ACCESS");
     unit.addSuit(map_constructors, "MAP - CONSTRUCTOR");
-    //unit.addSuit(map_iterators, "MAP - ITERATORS");
-    //unit.addSuit(map_capacity, "MAP - CAPACITY");
-    //unit.addSuit(map_element_access, "MAP - ELEMENT ACCESS");
-    //unit.addSuit(map_modifiers, "MAP - MODIFIERS");
+    unit.addSuit(map_iterators, "MAP - ITERATORS");
+    unit.addSuit(map_capacity, "MAP - CAPACITY");
+    unit.addSuit(map_element_access, "MAP - ELEMENT ACCESS");
+    unit.addSuit(map_modifiers, "MAP - MODIFIERS");
     //unit.addSuit(map_observers, "MAP - OBSERVERS");
     //unit.addSuit(map_operations, "MAP - OBSERVERS");
     //unit.addSuit(map_pair, "MAP - PAIR");

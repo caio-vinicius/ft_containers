@@ -18,16 +18,15 @@
 #include <map>
 
 typedef std::string string;
-typedef std::map<string, int>::iterator map_iterator;
+typedef ft::map<string, int>::iterator map_iterator;
 
-typedef std::string string;
 std::string *arraySet( void );
 std::string *test( void );
 
-bool compareMapAndPair(std::map<string, int> map, std::pair<string, int> *arr, size_t n);
+bool compareMapAndPair(ft::map<string, int> map, ft::pair<string, int> *arr, size_t n);
 string *setCars( void );
 void print_values( std::map<std::string, int> mymap );
-std::pair<string, int> *getCars( void );
+ft::pair<string, int> *getCars( void );
 
 class Sets {
     std::string *names;
