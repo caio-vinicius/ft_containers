@@ -1,7 +1,6 @@
 #ifndef STL_MAP_HPP
 # define STL_MAP_HPP
 
-#include "tests.hpp"
 #include "stl_utility.hpp"
 #include "stl_functional.hpp"
 #include "stl_tree.hpp"
