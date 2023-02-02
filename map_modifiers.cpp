@@ -75,9 +75,9 @@ static void testEraseKey(UnitTest& unit) {
 static void testEraseRange(UnitTest& unit) {
     ft::pair<string, int> *p = getCars();
     ft::map<string, int> map(p, p + 3);
-    map_iterator it;
 
-    map.erase(map.begin(), map.end());
+	map.erase(map.begin(), map.end());
+
     unit.assertTrue(map.size() == 0, "map.size() == 0");
     unit.assertTrue(map.count(p[0].first) == 0, "map.count(p[0].first) == 0");
 }

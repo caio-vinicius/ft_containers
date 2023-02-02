@@ -14,7 +14,7 @@
 
 
 namespace ft {
-	template <typename Key, typename value_type>
+	template <typename value_type>
 	struct Rb_tree_node {
 			typedef Rb_tree_node	Rb_node;
 			value_type		_data;
@@ -33,13 +33,13 @@ namespace ft {
 
 			Rb_node *minimum( void ) {
 				Rb_node *x = this;
-				while (x->left != x->left->parent) { x = x->left; }
+				while (x->left != x->left->left) { x = x->left; }
 				return (x);
 			}
 
 			Rb_node *maximum( void ) {
 				Rb_node *x = this;
-				while (x->right != x->right->parent) { x = x->right; }
+				while (x->right != x->right->right) { x = x->right; }
 				return (x);
 			}
 
@@ -54,109 +54,113 @@ namespace ft {
 				return y;
 			}
 
-            Rb_node* prev( void ) {
-                Rb_node *x = this;
-                if (x->left != x->left->parent) {
-                    return x->left->maximum();
-                }
-                Rb_node *y = x->parent;
-                while (y != y->left && x == y->left) {
-                    x = y;
-                    y = y->parent;
-                }
-                return y;
-            }
+			Rb_node* prev( void ) {
+				Rb_node *x = this;
+				if (x->left != x->left->parent) {
+					return x->left->maximum();
+				}
+				Rb_node *y = x->parent;
+				while (y != y->left && x == y->left) {
+					x = y;
+					y = y->parent;
+				}
+				return y;
+			}
 	};
 
-    template <typename Iterator>
-    class tree_reverse_iterator {
-        private:
-            Iterator i;
-        public:
-            typedef Iterator iterator_type;
-            typedef typename ft::iterator_traits<Iterator>::iterator_category iterator_category;
-            typedef typename ft::iterator_traits<Iterator>::value_type value_type;
-            typedef typename ft::iterator_traits<Iterator>::difference_type difference_type;
-            typedef typename ft::iterator_traits<Iterator>::pointer pointer;
-            typedef typename ft::iterator_traits<Iterator>::reference reference;
+	template <typename Iterator>
+	class tree_reverse_iterator {
+		protected:
+		typedef tree_reverse_iterator<Iterator>		reverse_iterator;
 
-            tree_reverse_iterator(void) : i(NULL) {};
-            explicit tree_reverse_iterator(iterator_type it) : i(it) {};
-            template <class Iter>
-            tree_reverse_iterator(const tree_reverse_iterator<Iter> &rev_it) : i(rev_it.i) {}
-            ~tree_reverse_iterator() {};
-            tree_reverse_iterator &operator=(tree_reverse_iterator const &rhs) {
-                i = rhs.i;
-                return (*this);
-            };
+		private:
+			Iterator i;
 
-            iterator_type base() const {return (i);};
-            reference operator*() const {
-                Iterator it = i;
-                return (*--it);
-            };
-            tree_reverse_iterator operator+(difference_type n) const {return (tree_reverse_iterator(i - n));};
-            tree_reverse_iterator operator-(difference_type n) const {return (tree_reverse_iterator(i + n));};
-            tree_reverse_iterator &operator++() {
-                --i;
-                return (*this);
-            };
-            tree_reverse_iterator    operator++(int) {
-                tree_reverse_iterator rev_it(*this);
-                --i;
-                return (rev_it);
-            };
-            tree_reverse_iterator &operator+=(difference_type n) {
-                i -= n;
-                return (*this);
-            };
-            tree_reverse_iterator &operator-=(difference_type n) {
-                i += n;
-                return (*this);
-            };
-            tree_reverse_iterator &operator--() {
-                ++i;
-                return (*this);
-            };
-            tree_reverse_iterator    operator--(int) {
-                tree_reverse_iterator rev_it(*this);
-                ++i;
-                return (rev_it);
-            };
-            pointer operator->() const {return (&(operator*()));};
-            reference operator[](difference_type n) const {return (*operator+(n));};
-    }; // class tree_reverse_iterator
+		public:
+			typedef Iterator iterator_type;
+			typedef typename ft::iterator_traits<Iterator>::iterator_category iterator_category;
+			typedef typename ft::iterator_traits<Iterator>::value_type value_type;
+			typedef typename ft::iterator_traits<Iterator>::difference_type difference_type;
+			typedef typename ft::iterator_traits<Iterator>::pointer pointer;
+			typedef typename ft::iterator_traits<Iterator>::reference reference;
 
-    template <typename Iterator>
-    bool operator==(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
-        return (lhs.base() == rhs.base());
-    }
-    template <typename Iterator>
-    bool operator!=(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
-        return (lhs.base() != rhs.base());
-    }
-    template <typename Iterator>
-    bool operator<(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
-        return (lhs.base() > rhs.base());
-    }
-    template <typename Iterator>
-    bool operator<=(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
-        return (lhs.base() >= rhs.base());
-    }
-    template <typename Iterator>
-    bool operator>(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
-        return (lhs.base() < rhs.base());
-    }
-    template <typename Iterator>
-    bool operator>=(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
-        return (lhs.base() <= rhs.base());
-    }
+			tree_reverse_iterator(void) : i(NULL) {};
+			explicit tree_reverse_iterator(iterator_type it) : i(it) {};
+			template <class Iter>
+			tree_reverse_iterator(const tree_reverse_iterator<Iter> &rev_it) : i(rev_it.i) {}
+			~tree_reverse_iterator() {};
+			reverse_iterator &operator=(reverse_iterator const &rhs) {
+				i = rhs.i;
+				return (*this);
+			};
 
-    template <typename Key, typename T>
+			iterator_type base() const {return (i);};
+			reference operator*() const {
+				Iterator it = i;
+				return (*--it);
+			};
+			reverse_iterator operator+(difference_type n) const {return (reverse_iterator(i - n));};
+			reverse_iterator operator-(difference_type n) const {return (reverse_iterator(i + n));};
+			reverse_iterator &operator++() {
+				--i;
+				return (*this);
+			};
+			reverse_iterator    operator++(int) {
+				reverse_iterator rev_it(*this);
+				--i;
+				return (rev_it);
+			};
+			reverse_iterator &operator+=(difference_type n) {
+				i -= n;
+				return (*this);
+			};
+			reverse_iterator &operator-=(difference_type n) {
+				i += n;
+				return (*this);
+			};
+			reverse_iterator &operator--() {
+				++i;
+				return (*this);
+			};
+			reverse_iterator    operator--(int) {
+				reverse_iterator rev_it(*this);
+				++i;
+				return (rev_it);
+			};
+			pointer operator->() const {return (&(operator*()));};
+			reference operator[](difference_type n) const {return (*operator+(n));};
+	}; // class tree_reverse_iterator
+
+	template <typename Iterator>
+	bool operator==(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
+		return (lhs.base() == rhs.base());
+	}
+	template <typename Iterator>
+	bool operator!=(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
+		return (lhs.base() != rhs.base());
+	}
+	template <typename Iterator>
+	bool operator<(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
+		return (lhs.base() > rhs.base());
+	}
+	template <typename Iterator>
+	bool operator<=(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
+		return (lhs.base() >= rhs.base());
+	}
+	template <typename Iterator>
+	bool operator>(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
+		return (lhs.base() < rhs.base());
+	}
+	template <typename Iterator>
+	bool operator>=(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
+		return (lhs.base() <= rhs.base());
+	}
+
+	template <typename T>
 	class tree_iterator: public ft::iterator<ft::bidirectional_iterator_tag, T> {
 		protected:
-			typedef tree_iterator						iterator;
-			typedef Rb_tree_node<Key, T>				Rb_node;
+			typedef tree_iterator			iterator;
+			typedef Rb_tree_node<T>			Rb_node;
 
 		private:
 			Rb_node* Nil;
@@ -170,77 +174,99 @@ namespace ft {
 
 			explicit tree_iterator(Rb_node* x, Rb_node* _prev = NULL): current(x), prev(_prev) {
 				Nil = current->minimum()->left;
+				next = Nil;
 				if (x != Nil) {
 					prev = x->prev();
 					next = x->next();
 				}
 			}
+			tree_iterator(const iterator& src): Nil(src.Nil), next(src.next), current(src.current), prev(src.prev) {}
 
-			tree_iterator(const iterator& src): current(src.current) {}
+			iterator& operator=( const iterator& rhs ) {
+				if (*this != rhs) {
+					Nil = rhs.Nil;
+					next = rhs.next;
+					current = rhs.current;
+					prev = rhs.prev;
+				}
+				return (*this);
+			}
+
+			~tree_iterator( void ) {}
 
 			T& operator*() const { return current->_data; }
 
 			T* operator->() const { return &(operator*()); }
 
 			iterator& operator++() {
-				operator++(0);
+				if (prev != Nil) {
+					prev = prev->next();
+					current = prev->next();
+					next = current->next();
+				} else if (next != Nil) {
+					current = next;
+					next = next->next();
+					prev = current->prev();
+				} else {
+					current = next;
+				}
 				return (*this);
 			}
 
 			iterator operator++(int) {
-				if (current == Nil) {
-					current = next;
-					next = current->next();
-					return (iterator(current->prev()));
-				}
-				current = current->next();
-				next = current->next();
-				if (current != Nil) {
-					next = current->prev();
-				}
-				return (iterator(current->prev()));
+				iterator tmp(*this);
+				operator++();
+				return (tmp);
 			}
 
 			iterator& operator--() {
-				operator--(0);
+				if (next != Nil) {
+					next = next->prev();
+					current = next->prev();
+					prev = current->prev();
+				} else if (prev != Nil) {
+					current = prev;
+					prev = prev->prev();
+					next = current->next();
+				} else {
+					current = prev;
+				}
 				return (*this);
 			}
 
 			iterator operator--(int) {
-				if (current == Nil) {
-					current = prev;
-					prev = current->prev();
-					return (iterator(current->next()));
-				}
-				current = current->prev();
-				prev = current->prev();
-				if (current != Nil) {
-					next = current->next();
-				}
-				return (iterator(next));
+				iterator tmp(*this);
+				operator++();
+				return (tmp);
+			}
+
+
+			Rb_node* base() {
+				return (current);
 			}
 
 			bool operator==(const iterator& x ) const { return current == x.current; }
 
 			bool operator!=(const iterator& x ) const { return current != x.current; }
 
-			~tree_iterator( void ) {}
 	};
 
-    template <typename Key, typename value_type, typename Compare = std::less<Key>, typename Alloc = std::allocator<value_type> >
+	template <typename Key, typename value_type, typename Compare = std::less<Key>, typename Alloc = std::allocator<value_type> >
 	class Rb_tree {
 	public:
-		typedef Alloc										allocator_type;
-		typedef typename allocator_type::size_type			size_type;
-		typedef Compare										key_compare;
-		typedef Rb_tree_node<Key, value_type>				Rb_node;
-		typedef typename std::allocator<Rb_node>			node_allocator_type;
-		typedef ft::tree_iterator<Key, value_type>			iterator;
-        typedef ft::tree_iterator<const Key, const value_type>          const_iterator;
-        typedef ft::tree_reverse_iterator<iterator>         reverse_iterator;
-        typedef ft::tree_reverse_iterator<const_iterator>   const_reverse_iterator;
-	public:
-		Rb_tree( const key_compare& comp = key_compare() ): _size(0), _comp(comp) {
+		typedef Key												key_type;
+		typedef Alloc											allocator_type;
+		typedef typename allocator_type::size_type				size_type;
+		typedef Compare											key_compare;
+		typedef Rb_tree_node<value_type>						Rb_node;
+		typedef typename std::allocator<Rb_node>				node_allocator_type;
+		typedef ft::tree_iterator<value_type>					iterator;
+		typedef ft::tree_iterator<const value_type>				const_iterator;
+		typedef ft::tree_reverse_iterator<iterator>				reverse_iterator;
+		typedef ft::tree_reverse_iterator<const_iterator>		const_reverse_iterator;
+
+
+		explicit Rb_tree( const key_compare& comp = key_compare() ): _size(0), _comp(comp) {
 			Nil = node_allocator.allocate(1);
 			node_allocator.construct(Nil, Rb_node());
 			Nil->right = Nil;
@@ -248,23 +274,33 @@ namespace ft {
 			Nil->parent = Nil;
 			root = Nil;
 		}
-		Rb_tree( const Rb_tree* x, const key_compare& comp = key_compare() ): _size(x->_size), _comp(comp) {
+
+		Rb_tree( const Rb_tree& x, const key_compare& comp = key_compare() ): _size(x._size), _comp(comp) {
+			std::cout << "Obviamente passou ak" << std::endl;
+
 			Nil = node_allocator.allocate(1);
 			node_allocator.construct(Nil, Rb_node());
 			Nil->right = Nil;
 			Nil->left = Nil;
 			Nil->parent = Nil;
-			root = copyTree(x->root, Nil);
+			root = copyTree(x.root);
 		}
 
-		Rb_node* copyTree( const Rb_node* node, const Rb_node* Nil ) {
-			if (node == node->left) { return (Nil); }
-			Rb_node* newNode = node_allocator.allocate(1);
-			Rb_node* tmp = node;
-			node_allocator.construct(newNode, tmp);
+		~Rb_tree( void ) {
+			clear(root);
+			node_allocator.destroy(Nil);
+			node_allocator.deallocate(Nil, 1);
+		}
 
-			newNode->left = copyTree(node->left, Nil);
-			newNode->right = copyTree(node->right, Nil);
+		Rb_node* copyTree( const Rb_node* node ) {
+			if (node == node->left) {
+					return (Nil);
+				}
+			Rb_node* newNode = node_allocator.allocate(1);
+			node_allocator.construct(newNode, *node);
+
+			newNode->left = copyTree(node->left);
+			newNode->right = copyTree(node->right);
 			return (newNode);
 		}
 
@@ -291,19 +327,19 @@ namespace ft {
 			return (iterator(Nil, root->maximum()));
 		}
 
-        reverse_iterator rbegin( void ) {
-            return (reverse_iterator(iterator(root->maximum())));
-        };
+		reverse_iterator rbegin( void ) {
+			return (reverse_iterator(end()));
+		};
 
-        reverse_iterator rend( void ) {
-            return (reverse_iterator(iterator(Nil)));
-        }
+		reverse_iterator rend( void ) {
+			return (reverse_iterator(begin()));
+		}
 
-        bool empty( void ) const {
-            if (_size == 0)
-                return (true);
-            return (false);
-        }
+		bool empty( void ) const {
+			if (_size == 0)
+				return (true);
+			return (false);
+		}
 
 		size_type size( void ) {
 			return (_size);
@@ -349,38 +385,6 @@ namespace ft {
 			return(iterator(z));
 		}
 
-		void leftRotate(Rb_node *node) {
-			Rb_node *tmp = node->right;
-			node->right = tmp->left;
-			if (tmp->left != Nil)
-				tmp->left->parent = node;
-			tmp->parent = node->parent;
-			if (node->parent == Nil)
-				root = tmp;
-			else if (node == node->parent->left)
-				node->parent->left = tmp;
-			else
-				node->parent->right = tmp;
-			tmp->left = node;
-				node->parent = tmp;
-		}
-
-		void rightRotate(Rb_node *node) {
-			Rb_node *tmp = node->left;
-			node->left = tmp->right;
-			if (tmp->right != Nil)
-				tmp->right->parent = node;
-			tmp->parent = node->parent;
-			if (node->parent == Nil)
-				root = tmp;
-			else if (node == node->parent->right)
-				node->parent->right = tmp;
-			else
-				node->parent->left = tmp;
-			tmp->right = node;
-			node->parent = tmp;
-		}
-
 		void insertFixup(Rb_node *node) {
 			while (node->parent->color == RED) {
 				if (node->parent == node->parent->parent->left) {
@@ -419,7 +423,7 @@ namespace ft {
 			}
 			root->color = BLACK;
 		}
-
+		// Memory leak
 		void nodeDelete(Rb_node *node) {
 			Rb_node *y = node;
 			Rb_node *x;
@@ -450,6 +454,7 @@ namespace ft {
 				deleteFixUp(x);
 			}
 			_size--;
+			nodeDestroy(node);
 		}
 
 		void transplant(Rb_node *u, Rb_node *v) {
@@ -520,6 +525,38 @@ namespace ft {
 			x->color = BLACK;
 		}
 
+		void leftRotate(Rb_node *node) {
+			Rb_node *tmp = node->right;
+			node->right = tmp->left;
+			if (tmp->left != Nil)
+				tmp->left->parent = node;
+			tmp->parent = node->parent;
+			if (node->parent == Nil)
+				root = tmp;
+			else if (node == node->parent->left)
+				node->parent->left = tmp;
+			else
+				node->parent->right = tmp;
+			tmp->left = node;
+				node->parent = tmp;
+		}
+
+		void rightRotate(Rb_node *node) {
+			Rb_node *tmp = node->left;
+			node->left = tmp->right;
+			if (tmp->right != Nil)
+				tmp->right->parent = node;
+			tmp->parent = node->parent;
+			if (node->parent == Nil)
+				root = tmp;
+			else if (node == node->parent->right)
+				node->parent->right = tmp;
+			else
+				node->parent->left = tmp;
+			tmp->right = node;
+			node->parent = tmp;
+		}
+
 		void printTree(Rb_node *root, int level, std::string side) {
 
 			if (root == Nil)
@@ -551,10 +588,63 @@ namespace ft {
 			clear(node->left);
 			clear(node->right);
 			nodeDestroy(node);
+			root = Nil;
+			_size = 0;
+		}
+
+		iterator lower_bound(const key_type& k) {
+			Rb_node *node = root->minimum();
+			while (node != Nil) {
+				if (!_comp(node->_data.first, k))
+					break ;
+				node = node->next();
+			}
+			return iterator(node);
+		}
+
+		const_iterator lower_bound(const key_type& k) const {
+			return const_iterator(lower_bound(k));
+		}
+
+		iterator upper_bound(const key_type& k) {
+			Rb_node *node = root->minimum();
+			while (node != Nil) {
+				if (_comp(k, node->_data.first))
+					break ;
+				node = node->next();
+			}
+			return iterator(node);
+		}
+
+		const_iterator upper_bound(const key_type& k) const {
+			return const_iterator(upper_bound(k));
+		}
+
+		ft::pair<const_iterator, const_iterator> equal_range(const key_type& k) const {
+			return ft::make_pair(lower_bound(k), upper_bound(k));
+		}
+
+		ft::pair<iterator, iterator> equal_range(const key_type& k) {
+			return ft::make_pair(lower_bound(k), upper_bound(k));
+		}
+		void clear( void ) {
+			clear(root);
+		}
+
+		void swap( Rb_tree& x ) {
+			Rb_node* tmproot = x.root;
+			Rb_node* tmpNil = x.Nil;
+			size_type tmpSize = x._size;
+			x.root = root;
+			x.Nil = Nil;
+			x._size = _size;
+			root = tmproot;
+			Nil = tmpNil;
+			_size = tmpSize;
 		}
 
 	private:
-		node_allocator_type node_allocator;
+		node_allocator_type	node_allocator;
 		Rb_node*	root;
 		Rb_node*	Nil;
 		size_type	_size;
@@ -563,7 +653,5 @@ namespace ft {
 
 
 }
-
-
 
 #endif

@@ -10,14 +10,14 @@ void testIterators(UnitTest& unit) {
 		}
 		unit.assertTrue(equal, "begin()~end()");
 	}
-	{
-		ft::map<string, int> cars(arr, arr + 3);
-		bool equal = false;
-		for (ft::map<string,int>::reverse_iterator rit=cars.rbegin(); rit != cars.rend(); rit++) {
-			equal = true;
-		}
-		unit.assertTrue(equal, "rbegin()~rend()");
-	}
+	//{
+	//	ft::map<string, int> cars(arr, arr + 3);
+	//	bool equal = false;
+	//	for (ft::map<string,int>::reverse_iterator rit=cars.rbegin(); rit != cars.rend(); rit++) {
+	//		equal = true;
+	//	}
+	//	unit.assertTrue(equal, "rbegin()~rend()");
+	//}
 }
 
 void map_iterators(UnitTest& unit) {

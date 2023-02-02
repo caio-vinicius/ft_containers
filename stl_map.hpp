@@ -20,6 +20,20 @@ namespace ft {
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
 
+            class value_compare : public ft::binary_function<value_type, value_type, bool> {
+				friend class map<Key, T, Compare, Alloc>;
+				protected:
+					Compare comp;
+					value_compare(Compare c) : comp(c) {}
+				public:
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+
+					bool operator()(const value_type &x, const value_type &y) const {
+						return comp(x.first, y.first);
+					}
+			};
 
 			typedef ft::Rb_tree<key_type, value_type, key_compare, allocator_type> Rb_type;
 			typedef typename Rb_type::iterator iterator;
@@ -54,6 +68,37 @@ namespace ft {
             void insert(InputIterator first, InputIterator last) {
                 for (; first != last; first++)
                     insert(*first);
+            }
+
+            void erase(iterator position) {
+				rb_tree.nodeDelete(position.base());
+			}
+
+			size_type erase(const key_type& k) {
+				size_type n = count(k);
+				iterator it = find(k);
+				if (n) {
+					rb_tree.nodeDelete(it.base());
+				}
+				return (n);
+			}
+
+			void erase(iterator first, iterator last) {
+				for (; first != last; first++) {
+					erase(first);
+				}
+			}
+
+            void swap(map& x) {
+                rb_tree.swap(x.rb_tree);
+            }
+
+            key_compare key_comp() const {
+                return (_comp);
+            }
+
+            value_compare value_comp() const {
+                return (value_compare(_comp));
             }
 
 			iterator begin( void ) {
@@ -104,15 +149,44 @@ namespace ft {
 				return (rb_tree.count(k));
 			}
 
+            iterator lower_bound(const key_type &k) {
+                return (rb_tree.lower_bound(k));
+            }
+
+            const_iterator lower_bound(const key_type &k) const {
+                return (rb_tree.lower_bound(k));
+            }
+
+            iterator upper_bound(const key_type &k) {
+                return (rb_tree.upper_bound(k));
+            }
+
+            const_iterator upper_bound(const key_type &k) const {
+                return (rb_tree.upper_bound(k));
+            }
+
+            ft::pair<const_iterator,const_iterator> equal_range(const key_type &k) const {
+                return (rb_tree.equal_range(k));
+            }
+
+            ft::pair<iterator,iterator> equal_range(const key_type &k) {
+                return (rb_tree.equal_range(k));
+            }
+
 			mapped_type& operator[] (const key_type& k) {
 				return ((*((insert(ft::make_pair(k,mapped_type()))).first)).second);
 			}
-			void print( void ) {
+
+            void print( void ) {
 				rb_tree.printBT();
 			}
 
+            void clear( void ) {
+                rb_tree.clear();
+            }
+
 		private:
-			Rb_type rb_tree;
+            Rb_type rb_tree;
 			key_compare _comp;
 			allocator_type _alloc;
 	};
