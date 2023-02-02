@@ -42,7 +42,6 @@ namespace ft {
             typedef typename Rb_type::const_reverse_iterator const_reverse_iterator;
 			typedef typename Rb_type::size_type size_type;
 
-
 			explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()): _comp(comp), _alloc(alloc) {};
 			map(const map &x): rb_tree(x.rb_tree), _comp(x._comp), _alloc(x._alloc) {};
 			template <class InputIterator>
@@ -50,6 +49,15 @@ namespace ft {
                 for (; first != last; first++) {
 					insert(*first);
 				}
+            }
+
+            ~map() {};
+
+            map &operator=(const map &rhs) {
+                rb_tree = rhs.rb_tree;
+                _comp = rhs._comp;
+                _alloc = rhs._alloc;
+                return (*this);
             }
 
 			pair<iterator, bool> insert (const value_type& val) {

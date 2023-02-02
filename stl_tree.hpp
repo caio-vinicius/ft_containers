@@ -155,6 +155,14 @@ namespace ft {
 	bool operator>=(const tree_reverse_iterator<Iterator> &lhs, const tree_reverse_iterator<Iterator> &rhs) {
 		return (lhs.base() <= rhs.base());
 	}
+    template <typename Iterator>
+    tree_reverse_iterator<Iterator> operator+(typename tree_reverse_iterator<Iterator>::difference_type n, const tree_reverse_iterator<Iterator> &rev_it) {
+        return (rev_it + n);
+    }
+    template <typename Iterator>
+    tree_reverse_iterator<Iterator> operator-(typename tree_reverse_iterator<Iterator>::difference_type n, const tree_reverse_iterator<Iterator> &rev_it) {
+        return (rev_it - n);
+    }
 
 	template <typename T>
 	class tree_iterator: public ft::iterator<ft::bidirectional_iterator_tag, T> {
@@ -255,11 +263,10 @@ namespace ft {
 	class Rb_tree {
 	public:
 		typedef Key												key_type;
-		typedef Alloc											allocator_type;
-		typedef typename allocator_type::size_type				size_type;
 		typedef Compare											key_compare;
 		typedef Rb_tree_node<value_type>						Rb_node;
-		typedef typename std::allocator<Rb_node>				node_allocator_type;
+		typedef typename Alloc::template rebind<Rb_node>::other allocator_type;
+		typedef typename allocator_type::size_type				size_type;
 		typedef ft::tree_iterator<value_type>					iterator;
 		typedef ft::tree_iterator<const value_type>				const_iterator;
 		typedef ft::tree_reverse_iterator<iterator>				reverse_iterator;
@@ -276,8 +283,6 @@ namespace ft {
 		}
 
 		Rb_tree( const Rb_tree& x, const key_compare& comp = key_compare() ): _size(x._size), _comp(comp) {
-			std::cout << "Obviamente passou ak" << std::endl;
-
 			Nil = node_allocator.allocate(1);
 			node_allocator.construct(Nil, Rb_node());
 			Nil->right = Nil;
@@ -295,7 +300,7 @@ namespace ft {
 		Rb_node* copyTree( const Rb_node* node ) {
 			if (node == node->left) {
 					return (Nil);
-				}
+			}
 			Rb_node* newNode = node_allocator.allocate(1);
 			node_allocator.construct(newNode, *node);
 
@@ -303,6 +308,15 @@ namespace ft {
 			newNode->right = copyTree(node->right);
 			return (newNode);
 		}
+
+        Rb_tree& operator=( const Rb_tree& x ) {
+            if (this != &x) {
+                clear(root);
+                root = copyTree(x.root);
+                _size = x._size;
+            }
+            return (*this);
+        }
 
 		iterator find( const Key& k ) {
 			Rb_node* tmp = root;
@@ -644,7 +658,7 @@ namespace ft {
 		}
 
 	private:
-		node_allocator_type	node_allocator;
+		allocator_type	node_allocator;
 		Rb_node*	root;
 		Rb_node*	Nil;
 		size_type	_size;

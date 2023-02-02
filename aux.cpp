@@ -26,23 +26,13 @@ bool compareMapAndPair(ft::map<string, int> map, ft::pair<string, int> *arr, siz
 }
 
 ft::pair<string, int> *getCars( void ) {
-	static ft::pair<string, int> *arr = new ft::pair<string, int>[6];
+    ft::pair<string, int> *arr = new ft::pair<string, int>[6];
 
-	arr[0] = ft::make_pair("Mitsubishi Lancer", 5);
-	arr[1] = ft::make_pair("Peugeot 207", 3);
-	arr[2] = ft::make_pair("Ferrari 458", 7);
-	arr[3] = ft::make_pair("Kawasaki ZZR 250", 4);
-	arr[4] = ft::make_pair("Porsche 911", 8);
-	arr[5] = ft::make_pair("Subaru WRX", 6);
-	return (arr);
+    arr[0] = ft::make_pair("Mitsubishi Lancer", 5);
+    arr[1] = ft::make_pair("Peugeot 207", 3);
+    arr[2] = ft::make_pair("Ferrari 458", 7);
+    arr[3] = ft::make_pair("Kawasaki ZZR 250", 4);
+    arr[4] = ft::make_pair("Porsche 911", 8);
+    arr[5] = ft::make_pair("Subaru WRX", 6);
+    return (arr);
 }
-
-// void print_values( std::map<std::string, int> mymap ) {
-// 	for (std::map<string, int>::iterator it = mymap.begin(); it != mymap.end(); it++)
-// 	{
-// 		std::cout << it->first    // string (key)
-// 				<< ':'
-// 				<< it->second   // string's value 
-// 				<< std::endl;
-// 	}
-// }

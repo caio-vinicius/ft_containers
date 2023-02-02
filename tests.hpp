@@ -28,17 +28,6 @@ string *setCars( void );
 void print_values( std::map<std::string, int> mymap );
 ft::pair<string, int> *getCars( void );
 
-class Sets {
-    std::string *names;
-
-    Sets( void ) {
-        names = arraySet();
-    };
-    ~Sets( void ) {
-        delete[] names;
-    }
-};
-
 void vector_iterator(UnitTest& unit);
 void vector_reverse_iterator(UnitTest& unit);
 void vector_modifiers(UnitTest& unit);
