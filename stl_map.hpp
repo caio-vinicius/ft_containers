@@ -152,6 +152,10 @@ namespace ft {
 				return (rb_tree.find(k));
 			}
 
+            const_iterator find(const key_type &k) const {
+                return (rb_tree.find(k));
+            }
+
 			size_type count(const key_type &k) const {
 				return (rb_tree.count(k));
 			}
@@ -190,6 +194,14 @@ namespace ft {
 
             void clear( void ) {
                 rb_tree.clear();
+            }
+
+            size_type max_size( void ) const {
+                return (rb_tree.max_size());
+            }
+
+            allocator_type get_allocator( void ) const {
+                return (_alloc);
             }
 
 		private:

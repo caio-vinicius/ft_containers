@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <string>
 #include <iostream>
-#include <alloca.h>
+#include <limits>
 #include "stl_utility.hpp"
 #include "stl_iterator.hpp"
 #define BLACK 'b'
@@ -656,6 +656,10 @@ namespace ft {
 			Nil = tmpNil;
 			_size = tmpSize;
 		}
+
+        size_type max_size() const {
+            return (std::numeric_limits<size_type>::max() / sizeof(Rb_node));
+        }
 
 	private:
 		allocator_type	node_allocator;

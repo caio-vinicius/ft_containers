@@ -16,6 +16,13 @@ static void testEmpty(UnitTest& unit) {
 	std::allocator<std::pair<string, int> > alloc;
 }
 
+static void testMaxSize(UnitTest& unit) {
+    ft::map<string, int> map;
+
+    unit.assertTrue(map.max_size() > 0, "max_size()");
+}
+
 void map_capacity(UnitTest& unit) {
 	unit.runTest(testEmpty, "testEmpty");
+    unit.runTest(testMaxSize, "testMaxSize");
 }

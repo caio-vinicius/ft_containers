@@ -62,6 +62,17 @@ namespace ft {
             _alloc.deallocate(v, _capacity);
         };
 
+        vector &operator=(const vector& x) {
+            clear();
+            _alloc.deallocate(v, _capacity);
+            _size = x._size;
+            _capacity = x._capacity;
+            v = _alloc.allocate(_capacity);
+            for (size_type i = 0; i < _size; ++i)
+                _alloc.construct(&v[i], x.v[i]);
+            return *this;
+        }
+
         // iterators
         iterator begin() {return (iterator(v));};
         const_iterator begin() const {return (const_iterator(v));};

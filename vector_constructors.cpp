@@ -47,6 +47,15 @@ void testCopyConstructor(UnitTest& unit) {
 		unit.assertTrue(vec.size() == 4, "size == 4");
 		unit.assertTrue(vec.capacity() == 4, "capacity == 4");
 	}
+	{
+		ft::vector<string> vec(names + 1, names + 5);
+		ft::vector<string> vec2 = vec;
+		bool equal = true;
+		for (size_t i = 0; i < vec.size(); i++) {if(vec[i] != vec2[i]) { equal = false;}}
+		unit.assertTrue(ft::equal(vec.begin(), vec.end(), vec2.begin()), "*vec++ == *vec2++");
+		unit.assertTrue(vec.size() == 4, "size == 4");
+		unit.assertTrue(vec.capacity() == 4, "capacity == 4");
+	}
 	delete[] names;
 }
 
