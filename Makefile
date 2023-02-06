@@ -14,7 +14,7 @@ OBJECTS_FILES_STD = $(patsubst $(SOURCES)/%.cpp,$(OBJECTS)/std_%.o,$(SOURCES_FIL
 DEPENDENCIES = ./objects
 DEPENDENCIES_FILES = $(OBJECTS_FILES:.o=.d)
 
-CCFLAGS = -Wfatal-errors -Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD -MP -g
+CCFLAGS = -Wfatal-errors -Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD -MP
 
 all: ft_$(NAME) std_$(NAME)
 
