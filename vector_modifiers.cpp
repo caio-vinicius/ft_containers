@@ -6,6 +6,7 @@ static void	testClear(UnitTest& unit) {
 		vec.clear();
 		unit.assertTrue(vec.size() == 0, "vec.size() == 0");
 		unit.assertTrue(vec.capacity() == 5, "vec.capacity() == 4");
+		delete[] names;
 }
 
 static void	testEraseRange(UnitTest& unit) {
