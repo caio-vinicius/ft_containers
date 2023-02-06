@@ -72,10 +72,10 @@ namespace ft {
 								}
 
 								template <class InputIterator>
-										void insert(InputIterator first, InputIterator last) {
-												for (; first != last; first++)
-														insert(*first);
-										}
+								void insert(InputIterator first, InputIterator last) {
+										for (; first != last; first++)
+												insert(*first);
+                }
 
 								void erase(iterator position) {
 										rb_tree.nodeDelete(position.base());
@@ -188,10 +188,6 @@ namespace ft {
 										return ((*((insert(ft::make_pair(k,mapped_type()))).first)).second);
 								}
 
-								void print( void ) {
-										rb_tree.printBT();
-								}
-
 								void clear( void ) {
 										rb_tree.clear();
 								}
@@ -208,6 +204,11 @@ namespace ft {
 								Rb_type rb_tree;
 								key_compare _comp;
 								allocator_type _alloc;
+
+
+								void print( void ) {
+										rb_tree.printBT();
+								}
 				};
 }
 
