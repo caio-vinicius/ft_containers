@@ -11,6 +11,7 @@ int main( void ) {
 		unit.setMode(false);
 		unit.addSuit(vector_non_member_functions, "NON MEMBER FUNCTIONS");
 		unit.addSuit(vector_iterator, "ITERATOR");
+        unit.addSuit(vector_const_iterator, "CONST ITERATOR");
 		unit.addSuit(vector_reverse_iterator, "REVERSE ITERATOR");
 		unit.addSuit(vector_constructors, "CONSTRUCTORS");
 		unit.addSuit(vector_modifiers, "MODIFIERS");
@@ -24,6 +25,8 @@ int main( void ) {
 		unit.addSuit(map_observers, "MAP - OBSERVERS");
 		unit.addSuit(map_operations, "MAP - OPERATIONS");
 		unit.addSuit(map_pair, "MAP - PAIR");
+    unit.addSuit(map_keys_order, "MAP - KEYS ORDER");
+		unit.addSuit(stack_member_functions, "STACK - MEMBER FUNCTIONS");
 		unit.run();
 		unit.status();
 		unit.clear();

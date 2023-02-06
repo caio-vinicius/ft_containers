@@ -1,6 +1,6 @@
 #include "tests.hpp"
 
-void	testClear(UnitTest& unit) {
+static void	testClear(UnitTest& unit) {
 		string *names = arraySet();
 		ft::vector<string> vec(names, names + 5);
 		vec.clear();
@@ -8,7 +8,7 @@ void	testClear(UnitTest& unit) {
 		unit.assertTrue(vec.capacity() == 5, "vec.capacity() == 4");
 }
 
-void	testEraseRange(UnitTest& unit) {
+static void	testEraseRange(UnitTest& unit) {
 		string *names = arraySet();
 
 		{
@@ -52,7 +52,7 @@ static void	testErase(UnitTest& unit) {
 		delete[] names;
 }
 
-void	testInsertSingleElement(UnitTest& unit)		{
+static void	testInsertSingleElement(UnitTest& unit)		{
 		string *names = arraySet();
 		ft::vector<string> vec(names, names + 5);
 		vec.insert(vec.begin() + 2, names[0]);
@@ -76,7 +76,7 @@ void	testInsertSingleElement(UnitTest& unit)		{
 		delete[] names;
 }
 
-void	testInsertFillElements(UnitTest &unit) {
+static void	testInsertFillElements(UnitTest &unit) {
 		string *names = arraySet();
 		{
 				ft::vector<string> vec;
@@ -109,7 +109,7 @@ void	testInsertFillElements(UnitTest &unit) {
 		delete[] names;
 }
 
-void	testInsertRange(UnitTest& unit) {
+static void	testInsertRange(UnitTest& unit) {
 		string *names = arraySet();
 		{
 				ft::vector<string> vec;
@@ -140,7 +140,7 @@ void	testInsertRange(UnitTest& unit) {
 		delete[] names;
 }
 
-void	testPopBack(UnitTest& unit) {
+static void	testPopBack(UnitTest& unit) {
 		string *names = arraySet();
 		{
 				ft::vector<string> vec(names, names + 1);
@@ -159,7 +159,7 @@ void	testPopBack(UnitTest& unit) {
 		delete[] names;
 }
 
-void	testPushBack(UnitTest& unit) {
+static void	testPushBack(UnitTest& unit) {
 		string *names = arraySet();
 		ft::vector<string> vec;
 
@@ -179,7 +179,7 @@ void	testPushBack(UnitTest& unit) {
 		delete[] names;
 }
 
-void	testAssignRange(UnitTest& unit) {
+static void	testAssignRange(UnitTest& unit) {
 		string *names = arraySet();
 		ft::vector<string> vect(names, names + 5);
 		{
@@ -216,7 +216,7 @@ void	testAssignRange(UnitTest& unit) {
 		delete[] names;
 }
 
-void testAssignFill(UnitTest& unit) {
+static void testAssignFill(UnitTest& unit) {
 		string *names = arraySet();
 		ft::vector<string> vect(names, names + 5);
 		{
@@ -243,7 +243,7 @@ void testAssignFill(UnitTest& unit) {
 		delete[] names;
 }
 
-void testSwap(UnitTest& unit) {
+static void testSwap(UnitTest& unit) {
 		string *names = arraySet();
 		ft::vector<string> vec(names, names + 5);
 		ft::vector<string> vec2;
@@ -274,6 +274,7 @@ void testSwap(UnitTest& unit) {
 }
 
 void vector_modifiers(UnitTest& unit) {
+        unit.runTest(testClear, "testClear");
 		unit.runTest(testPushBack, "testPushBack");
 		unit.runTest(testPopBack, "testPopBack");
 		unit.runTest(testInsertSingleElement, "testInsertSingleElement");

@@ -6,8 +6,9 @@
 #ifndef STD
 #define STD 0
 		#include "stl_vector.hpp"
-		#include "stl_iterator.hpp"
 		#include "stl_map.hpp"
+		#include "stl_stack.hpp"
+		#include "stl_iterator.hpp"
 		#include "stl_utility.hpp"
 #else
 		namespace ft = std;
@@ -16,6 +17,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <stack>
 
 typedef std::string string;
 typedef ft::map<string, int>::iterator map_iterator;
@@ -35,14 +37,18 @@ void vector_elements_access(UnitTest& unit);
 void vector_constructors(UnitTest& unit);
 void vector_capacity(UnitTest& unit);
 void vector_non_member_functions(UnitTest& unit);
+void vector_const_iterator(UnitTest& unit);
 
 void map_constructors(UnitTest& unit);
 void map_iterators(UnitTest& unit);
+void map_keys_order(UnitTest& unit);
 void map_capacity(UnitTest& unit);
 void map_element_access(UnitTest& unit);
 void map_modifiers(UnitTest& unit);
 void map_observers(UnitTest& unit);
 void map_operations(UnitTest& unit);
 void map_pair(UnitTest& unit);
+
+void stack_member_functions(UnitTest& unit);
 
 #endif

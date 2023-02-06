@@ -1,6 +1,6 @@
 #include "tests.hpp"
 
-void testElementsAcess(UnitTest& unit) {
+static void testElementsAcess(UnitTest& unit) {
 		string *names = arraySet();
 		{
 				bool equal = true;
@@ -48,8 +48,7 @@ void testElementsAcess(UnitTest& unit) {
 
 }
 
-
-void testVectorIterator(UnitTest& unit) {
+static void testVectorIterator(UnitTest& unit) {
 		string *names = arraySet();
 		ft::vector<string> vec(names, names + 5);
 		ft::vector<string>::iterator it;

@@ -1,13 +1,14 @@
 #include "tests.hpp"
 #include <algorithm>
-void testDefaultConstructor(UnitTest& unit) {
+
+static void testDefaultConstructor(UnitTest& unit) {
 		ft::vector<string> vec;
 
 		unit.assertTrue(vec.empty(), "empty() == true");
 		unit.assertTrue(vec.capacity() == 0, "size == 0");
 }
 
-void testFillConstructor(UnitTest& unit) {
+static void testFillConstructor(UnitTest& unit) {
 		string *names = arraySet();
 		{
 				ft::vector<string> vec(3, names[1]);
@@ -24,7 +25,7 @@ void testFillConstructor(UnitTest& unit) {
 		delete[] names;
 }
 
-void testRangeConstructor(UnitTest& unit) {
+static void testRangeConstructor(UnitTest& unit) {
 		string *names = arraySet();
 		{
 				ft::vector<string> vec(names + 2, names + 4);
@@ -36,7 +37,7 @@ void testRangeConstructor(UnitTest& unit) {
 		delete[] names;
 }
 
-void testCopyConstructor(UnitTest& unit) {
+static void testCopyConstructor(UnitTest& unit) {
 		string *names = arraySet();
 		{
 				ft::vector<string> vec(names + 1, names + 5);

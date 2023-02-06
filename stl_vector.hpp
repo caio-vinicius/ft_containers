@@ -255,7 +255,7 @@ namespace ft {
 								allocator_type _alloc;
 								size_type _size;
 								size_type _capacity;
-				};
+				}; // class vector
 
 		template <typename T, typename Alloc> bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
 				if (lhs.size() == rhs.size()) {
@@ -276,7 +276,7 @@ namespace ft {
 		template <class T, class Alloc> bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {return (!(lhs < rhs));}
 
 		template <class T, class Alloc>
-				void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {x.swap(y);}
-}
+		void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {x.swap(y);}
+} // namespace ft
 
 #endif

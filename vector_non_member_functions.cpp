@@ -1,5 +1,6 @@
 #include "tests.hpp"
-void testEqual(UnitTest& unit) {
+
+static void testEqual(UnitTest& unit) {
 		string *names = arraySet();
 		{
 				ft::vector<string> vec(names, names + 5);
@@ -12,7 +13,7 @@ void testEqual(UnitTest& unit) {
 		delete[] names;
 }
 
-void testRelationalOperators(UnitTest& unit) {
+static void testRelationalOperators(UnitTest& unit) {
 		string *names = arraySet();
 		ft::vector<string> vec(names, names + 5);
 		{
