@@ -76,6 +76,7 @@ static void testRelationalOperators(UnitTest& unit) {
 
 		s1.push(3);
 		s1.push(4);
+		s1.push(5);
 		unit.assertTrue(s1 > s2, "stack 1 is greater than stack 2");
 
 		s1.pop();

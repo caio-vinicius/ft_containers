@@ -10,13 +10,13 @@ static void testConstructors(UnitTest& unit) {
 
 		ft::vector<int>::iterator it3(p);
 		ft::vector<int>::iterator it4(it3);
-		unit.assertEqual(it3, it4, "Expected: True; it3(p), it4(it3), it3 == it4");
-		unit.assertEqual(it3[3], it4[3], "Expected: True; it3[3] == it4[3]");
+		unit.assertTrue(it3 == it4, "Expected: True; it3(p), it4(it3), it3 == it4");
+		unit.assertTrue(it3[3] == it4[3], "Expected: True; it3[3] == it4[3]");
 		unit.assertTrue((it3 + 3) == (it4 + 3), "Expected: True; it3 + 3 == it4 + 3");
 
 		it = it3;
-		unit.assertEqual(it, it3, "Expected: True; it = it3, it == it3");
-		unit.assertEqual(it[3], it3[3], "Expected: True; it3[3] == it[3]");
+		unit.assertTrue(it == it3, "Expected: True; it = it3, it == it3");
+		unit.assertTrue(it[3] == it3[3], "Expected: True; it3[3] == it[3]");
 		unit.assertTrue((it + 3) == (it3 + 3), "Expected: True; it + 3 == it3 + 3");
 
 		delete[] p;
