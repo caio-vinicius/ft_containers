@@ -21,6 +21,29 @@ void testIterators(UnitTest& unit) {
 		delete[] arr;
 }
 
+void marce_error(UnitTest& unit) {
+		ft::map<char, int> map;
+
+		map['a'] = 10;
+		map['b'] = 30;
+		map['c'] = 50;
+		map['d'] = 70;
+		map['e'] = 90;
+		map['f'] = 110;
+		map['g'] = 130;
+		map['h'] = 150;
+
+		ft::map<char, int>::iterator it = map.begin();
+
+		map.erase(it);
+		it++;
+		for (; it != map.end(); it++) {
+				std::cout << it->first << std::endl;
+		}
+		unit.assertTrue(true);
+}
+
 void map_iterators(UnitTest& unit) {
 		unit.runTest(testIterators, "testIterators");
+		unit.runTest(marce_error, "marce_error");
 }
