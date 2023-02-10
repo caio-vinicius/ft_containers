@@ -18,6 +18,25 @@ void testIterators(UnitTest& unit) {
 				}
 				unit.assertTrue(equal, "rbegin()~rend()");
 		}
+		{
+				ft::map<char, int> map;
+
+				map.insert(ft::pair<char, int>('a', 100));
+				map.insert(ft::pair<char, int>('b', 100));
+				map.insert(ft::pair<char, int>('x', 100));
+				map.insert(ft::pair<char, int>('y', 100));
+				map.insert(ft::pair<char, int>('z', 100));
+
+				ft::map<char, int>::iterator it = map.begin();
+
+				map.erase(it);
+				it = map.begin();
+				bool equal = false;
+				for (; it != map.end(); it++) {
+						equal = true;
+				}
+				unit.assertTrue(equal);
+		}
 		delete[] arr;
 }
 

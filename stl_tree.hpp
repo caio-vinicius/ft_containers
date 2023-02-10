@@ -45,7 +45,9 @@ namespace ft {
 
 						Rb_node* next( void ) {
 								Rb_node *x = this;
-								if (x->right != x->right->parent) { return x->right->minimum(); }
+								if (x->right != x->right->right) {
+										return x->right->minimum();
+								}
 								Rb_node *y = x->parent;
 								while (y != y->right && x == y->right) {
 										x = y;
@@ -56,7 +58,7 @@ namespace ft {
 
 						Rb_node* prev( void ) {
 								Rb_node *x = this;
-								if (x->left != x->left->parent) {
+								if (x->left != x->left->left) {
 										return x->left->maximum();
 								}
 								Rb_node *y = x->parent;
